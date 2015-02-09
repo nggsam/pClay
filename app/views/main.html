@@ -1,66 +1,16 @@
 <div class="content">
-  <!-- pClay canvas stays here -->
+  <!-- WHOLE CANVAS -->
   <div id="canvas">
-                  <!--<img src="assets/15.jpg" class="img">-->
-                  <div id="floating" class="floating {{floatingClass}}">
-                      <section class="floating-com first">
-                          <div class="panel panel-default panel-custom">
-                              <!--<div class="panel-heading">-->
-                                  <!--<h3 class="panel-title">PDB</h3>-->
-                              <!--</div>-->
-                              <div ng-show="show.dropzone" class="panel-body panel-body-custom bg-primary">
-                                  Drop ZONE
-                              </div>
-                              <!--<div class="panel-footer">-->
-                                  <div class="input-group panel-footer">
-                                      <!--<span class="input-group-addon">ID:</span>-->
-                                      <input type="text" ng-model='input.name' class="form-control" placeholder="PDB file">
-                                       <span class="input-group-btn">
-          <button class="btn btn-default" ng-click="fetchPdb(input.name)" type="button">PDB</button>
-          <button class="btn btn-default" ng-click="fetchSurf(input.name)" type="button">Surf</button>
-        </span>
-                                  </div>
-                              <!--</div>-->
-                          </div>
-                      </section>
-                      <!-- STRUCTURES -->
-                      <section class="floating-com">
-                          <div class="panel panel-default panel-custom">
-                              <div class="panel-heading">
-                                  <h3 class="panel-title" ng-click="show.structures=!show.structures">Structures</h3>
-                              </div>
-                              <div ng-show="show.structures" class="panel-body panel-body-custom bg-primary">
-                                  <ul class="list-group">
-                                      <li class="list-group-item" ng-repeat="item in pdbList" ng-style="item.style">
-                                          <code ng-bind="item.id"></code>
-                                          <input type="checkbox" checked name="toggle" ng-click="pdbToggle(item.id, item)" class="btn sidebar-list-item">
-                                          <span ng-hide="item.fetched" class="spin-loader glyphicon glyphicon-repeat"></span>
-                                          <span ng-repeat="chain in item.chains" ng-style="chain.style" class="badge" ng-click="chainUtil.toggle(item.id, chain, item)" ng-bind="chain.id"></span>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </section>
-                      <!-- SURFACES -->
-                      <section class="floating-com">
-                          <div class="panel panel-default panel-custom">
-                              <div class="panel-heading">
-                                  <h3 class="panel-title" ng-click="show.surfaces=!show.surfaces" >Surfaces</h3>
-
-                              </div>
-                              <div ng-show="show.surfaces" class="panel-body panel-body-custom">
-                                  <ul class="list-group">
-                                      <li class="list-group-item" ng-repeat="item in surfList" ng-style="item.style">
-                                          <code ng-bind="item.id"></code>
-                                          <input type="checkbox" checked name="toggle" ng-click="surfToggle(item.id, item)" class="btn sidebar-list-item">
-                                          <span ng-hide="item.fetched" class="spin-loader glyphicon glyphicon-repeat"></span>
-                                          <span ng-repeat="chain in item.chains" ng-style="chain.style" class="badge" ng-click="chainUtil.toggle(item.id, chain, item)" ng-bind="chain.id"></span>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </section>
-                  </div>
-                  <h1 id="welcome" ng-bind="Canvas.welcomeMessage"></h1>
-              </div>
+    <!-- FLOATING ZONE -->
+    <div id="floating" layout="column" layout-align="center center">
+      <div flex layout="row" layout-align="center center" layout-margin>
+        <md-input-container flex ="50">
+          <input ng-model="input.name">
+          <label>ID</label>
+        </md-input-container>
+        <md-button class="md-raised md-primary" flex ng-click="fetchPdb(input.name)">PDB</md-button>
+        <md-button class="md-raised md-primary md-hue-1" flex ng-click="fetchSurf(input.name)">SURF</md-button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -150,6 +150,8 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
         console.log("built scene in " + (+new Date() - time) + "ms");
     };
 
+    /* =============================================================== */
+    /* START OF MODIFIED */
     GLmol.prototype.addPDB = function (id, data) {
         if(!this.mainCentroid) { // If main centroid has not been set
             this.mainCentroid = data.centroid;
@@ -160,6 +162,140 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
         this.centroids[id] = this.mainCentroid; // Changed to main centroid
         this.rebuildScene(id);
     };
+
+    /* SURF */
+    GLmol.prototype.addSurf = function (rawData, color) {
+        var data = this.parseSurf(rawData);
+        var geometry = new THREE.Geometry();
+        var myCoordinates = data.coordinates;
+        var myFaces = data.faces;
+        var objectCount = 2;
+        var offset;
+        if(!this.mainCentroid) { // If main centroid has not been set
+            this.mainCentroid = findPrime(myCoordinates, data.numGeometry);
+        }
+        //loop to add vertices
+        for (var i = 0; i < myCoordinates.length; i += 6) {
+            addVertex(myCoordinates[i], myCoordinates[i + 1], myCoordinates[i + 2], geometry)
+        }
+        //loop to add faces
+        for (var j = 0; j < myFaces.length; j += 3) {
+            addFace(myFaces[j], myFaces[j + 1], myFaces[j + 2], geometry);
+        }
+
+        geometry.computeFaceNormals();
+        geometry.computeVertexNormals();
+
+        //create a new object containing geometry
+        var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: color, transparent: true, opacity: 0.5}));
+        mesh.position.set(-this.mainCentroid[0], -this.mainCentroid[1], -this.mainCentroid[2]);
+        mesh.name = data.id;
+        this.surfGroup.add(mesh);
+        this.show();
+        return mesh;
+    }
+
+    /** Surface files parser */
+    GLmol.prototype.parseSurf = function (data) {
+        var myCoordinates = [], myFaces = [], lines;
+        var numGeometry, numTopology;
+        var startGeometry = 0, startTopology = 0;
+
+        //range of looking for GEOMETRY and TOPOLOGY
+        var RANGE = 30;
+
+        //split file into different lines
+        lines = data.split("\n");
+
+        //get the GEOMETRY position
+        for (var i = 0; i < RANGE; i++) {
+            if (lines[i].charAt(0) == "G") {
+                startGeometry = i;
+                break;
+            }
+        }
+        //get number of geometries
+        numGeometry = parseInt(lines[startGeometry].replace("GEOMETRY: ", ""))
+
+        //split each line into different words separated by a space " "
+        //words will be contained in an object - words
+        //loop through lines[] to break down lines into words[]
+        var words = [];
+        for (i = 0; i < numGeometry; i++) {
+            words[i] = lines[i + startGeometry + 1].split(" ");
+        }
+
+        //a counter to loop through words[]
+        var counter = 0;
+
+        //loop through words[] to add parsed-Floats to myCoordinates[]
+        for (var j = 0; j < words.length; j++) {
+            for (var k = 0; k < words[0].length; k++) {
+                myCoordinates[counter] = parseFloat(words[j][k]);
+                counter++;
+            }
+        }
+        ////START LOOKING FOR FACES - TOPOLOGY
+
+        //get the TOPOLOGY position
+        for (j = numGeometry - 1 + startGeometry; j < numGeometry - 1 + startGeometry + RANGE; j++) {
+            if (lines[j].charAt(0) == "T") {
+                startTopology = j;
+                break;
+            }
+        }
+
+        //get number of topologies
+        numTopology = parseInt(lines[startTopology].replace("TOPOLOGY: ", ""));
+        words = [];
+        for (i = 0; i < numTopology; i++) {
+            words[i] = lines[i + startTopology + 1].split(" ");
+        }
+
+        //reset counter
+        counter = 0;
+
+        //loop through words[] to add parsed-Floats to myCoordinates[]
+        for (j = 0; j < words.length; j++) {
+            for (k = 0; k < words[0].length; k++) {
+                myFaces[counter] = parseFloat(words[j][k]);
+                counter++;
+            }
+        }
+
+        //data to render
+        var data = {
+            coordinates: myCoordinates,
+            faces: myFaces,
+            numGeometry: numGeometry,
+            numTopology: numTopology,
+            startGeometry: startGeometry,
+            startTopology: startTopology
+        };
+
+        return data;
+    };
+
+    /** Add vertex to a geometry */
+    function addVertex(x, y, z, geometry) {
+        geometry.vertices.push(new THREE.Vector3(x, y, z));
+    }
+    /** Add face to a geometry */
+    function addFace(x, y, z, geometry) {
+        geometry.faces.push(new THREE.Face3(x, y, z));
+    }
+    /** Find primes to position object to origin */
+    function findPrime(myCoordinates, numGeometry) {
+        var xPrime = 0, yPrime = 0, zPrime = 0;
+        for (var i = 0; i < myCoordinates.length - 6; i += 6) {
+            xPrime += myCoordinates[i];
+            yPrime += myCoordinates[i + 1];
+            zPrime += myCoordinates[i + 2];
+        }
+        return [xPrime / numGeometry, yPrime / numGeometry, zPrime / numGeometry];
+    }
+    /* END OF MODIFIED */
+    /* ======================================================================== */
 
 GLmol.prototype.setupLights = function(scene) {
 //    this.pointLight = new THREE.PointLight(0xFFFFFF, 1);
@@ -1583,7 +1719,7 @@ GLmol.prototype.defineRepresentation = function(id) {
 //    this.colorChainbow(all, id); // TODO: Modify this
     this.colorMono(all, id); // TODO: Modify this
 
-    var asu = new THREE.Object3D();
+    var asu = new THREE.Object3D({transparent: true, opacity: 0.5});
 
     this.drawAtomsAsSphere(asu, id, hetatm, this.sphereRadius);
     this.drawCartoon(asu, id, all, false, this.thickness, id);
@@ -1820,138 +1956,6 @@ GLmol.prototype.show = function() {
 GLmol.prototype.doFunc = function(func) {
     func(this);
 };
-
-    /* SURF */
-    /** Surface files parser */
-    GLmol.prototype.parseSurf = function (data) {
-        var myCoordinates = [], myFaces = [], lines;
-        var numGeometry, numTopology;
-        var startGeometry = 0, startTopology = 0;
-
-        //range of looking for GEOMETRY and TOPOLOGY
-        var RANGE = 30;
-
-        //split file into different lines
-        lines = data.split("\n");
-
-        //get the GEOMETRY position
-        for (var i = 0; i < RANGE; i++) {
-            if (lines[i].charAt(0) == "G") {
-                startGeometry = i;
-                break;
-            }
-        }
-        //get number of geometries
-        numGeometry = parseInt(lines[startGeometry].replace("GEOMETRY: ", ""))
-
-        //split each line into different words separated by a space " "
-        //words will be contained in an object - words
-        //loop through lines[] to break down lines into words[]
-        var words = [];
-        for (i = 0; i < numGeometry; i++) {
-            words[i] = lines[i + startGeometry + 1].split(" ");
-        }
-
-        //a counter to loop through words[]
-        var counter = 0;
-
-        //loop through words[] to add parsed-Floats to myCoordinates[]
-        for (var j = 0; j < words.length; j++) {
-            for (var k = 0; k < words[0].length; k++) {
-                myCoordinates[counter] = parseFloat(words[j][k]);
-                counter++;
-            }
-        }
-        ////START LOOKING FOR FACES - TOPOLOGY
-
-        //get the TOPOLOGY position
-        for (j = numGeometry - 1 + startGeometry; j < numGeometry - 1 + startGeometry + RANGE; j++) {
-            if (lines[j].charAt(0) == "T") {
-                startTopology = j;
-                break;
-            }
-        }
-
-        //get number of topologies
-        numTopology = parseInt(lines[startTopology].replace("TOPOLOGY: ", ""));
-        words = [];
-        for (i = 0; i < numTopology; i++) {
-            words[i] = lines[i + startTopology + 1].split(" ");
-        }
-
-        //reset counter
-        counter = 0;
-
-        //loop through words[] to add parsed-Floats to myCoordinates[]
-        for (j = 0; j < words.length; j++) {
-            for (k = 0; k < words[0].length; k++) {
-                myFaces[counter] = parseFloat(words[j][k]);
-                counter++;
-            }
-        }
-
-        //data to render
-        var data = {
-            coordinates: myCoordinates,
-            faces: myFaces,
-            numGeometry: numGeometry,
-            numTopology: numTopology,
-            startGeometry: startGeometry,
-            startTopology: startTopology
-        };
-
-        return data;
-    };
-
-    GLmol.prototype.addSurf = function (rawData, color) {
-        var data = this.parseSurf(rawData);
-        var geometry = new THREE.Geometry();
-        var myCoordinates = data.coordinates;
-        var myFaces = data.faces;
-        var objectCount = 2;
-        var offset;
-        if(!this.mainCentroid) { // If main centroid has not been set
-            this.mainCentroid = findPrime(myCoordinates, data.numGeometry);
-        }
-        //loop to add vertices
-        for (var i = 0; i < myCoordinates.length; i += 6) {
-            addVertex(myCoordinates[i], myCoordinates[i + 1], myCoordinates[i + 2], geometry)
-        }
-        //loop to add faces
-        for (var j = 0; j < myFaces.length; j += 3) {
-            addFace(myFaces[j], myFaces[j + 1], myFaces[j + 2], geometry);
-        }
-
-        geometry.computeFaceNormals();
-        geometry.computeVertexNormals();
-
-        //create a new object containing geometry
-        var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: color}));
-        mesh.position.set(-this.mainCentroid[0], -this.mainCentroid[1], -this.mainCentroid[2]);
-        mesh.name = data.id;
-        this.surfGroup.add(mesh);
-        this.show();
-        return mesh;
-    }
-
-    /** Add vertex to a geometry */
-    function addVertex(x, y, z, geometry) {
-        geometry.vertices.push(new THREE.Vector3(x, y, z));
-    }
-    /** Add face to a geometry */
-    function addFace(x, y, z, geometry) {
-        geometry.faces.push(new THREE.Face3(x, y, z));
-    }
-    /** Find primes to position object to origin */
-    function findPrime(myCoordinates, numGeometry) {
-        var xPrime = 0, yPrime = 0, zPrime = 0;
-        for (var i = 0; i < myCoordinates.length - 6; i += 6) {
-            xPrime += myCoordinates[i];
-            yPrime += myCoordinates[i + 1];
-            zPrime += myCoordinates[i + 2];
-        }
-        return [xPrime / numGeometry, yPrime / numGeometry, zPrime / numGeometry];
-    }
 
 return GLmol;
 }());
