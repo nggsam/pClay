@@ -59,7 +59,7 @@ angular.module('pclayApp')
    	init($scope);
 
    	$scope.handleError = function(err){
-   		console.log("Error:", err)
+   		console.log('Error:', err)
    	}
    	 /** reset $scope.input */
     $scope.input.reset = function () {
@@ -69,15 +69,15 @@ angular.module('pclayApp')
 	/** Get PDB info from server and add it to scene */
     $scope.fetchPdb = function (id) {
 //            check for undefined or empty input
-    	if ($scope.input.name == undefined || $scope.input.name == '') {
+    	if ($scope.input.name === undefined || $scope.input.name === '') {
             alert('Please enter PDB ID.');
         } 
         else {
 	        // Reset input
 	        $scope.input.reset();
-	        $http.get(SERVER + $scope.ops['pdb'] + id)
+	        $http.get(SERVER + $scope.ops.pdb + id)
 		        .success(function(data){
-		    		console.log('Fetching', id, 'done.')
+		    		console.log('Fetching', id, 'done.');
 		        	$scope.glmol.addPDB(id, data);
 		        })
 				.error(function(err){
@@ -86,31 +86,26 @@ angular.module('pclayApp')
         }	
     };
 
- 	/** Get pdb with id and add to scene  */
+ 	/** Get surf with id and add to scene  */
     $scope.fetchSurf = function (id, color) {
-    	if ($scope.input.name == undefined || $scope.input.name == '') {
+    	if ($scope.input.name === undefined || $scope.input.name === '') {
             alert('Please enter Surface ID.');
         } 
         else {
 	        // Reset input
 	        $scope.input.reset();
-	        $http.get(SERVER + $scope.ops['surfgen'] + id)
+	        $http.get(SERVER + $scope.ops.surfgen + id)
 		        .success(function(data){
-		    		console.log('Fetching', id, 'done.')
+		    		console.log('Fetching', id, 'done.');
 		        	$http.get(data.url)
 		        		.success(function(data){
 	        				/* Parse data and render to canvas */
                 			console.log("fetchPdb success");
-                			console.log(data);
                 			$scope.glmol.addSurf(data, color);
 		        		})
 		        		.error(function(err){
 		        			$scope.handleError(err);
 		        		})
-		        		// .then(function(progress){
-		        		// 	console.log("fetchPdbAsync::Progress()");
-		        		// 	console.log(progress);
-		        		// })
 		        })
 				.error(function(err){
 					$scope.handleError(err);
