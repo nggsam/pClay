@@ -50,6 +50,7 @@ angular.module('pclayApp')
 
         // Url for VASPI Server
         var SERVER = config.server;
+        console.log(SERVER);
 
         function init(scope) {
             //dummy object for input
