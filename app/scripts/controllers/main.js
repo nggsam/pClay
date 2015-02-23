@@ -189,10 +189,10 @@ angular.module('pclayApp')
                 console.log(mess);
             }
             /* TESTS ========================== */
-        $scope.input.name = '1';
-        $scope.fetchPdb('103D');
-        $scope.input.name = '1';
-        $scope.fetchPdb('1TUB');
-        $scope.input.name = '1';
-        $scope.fetchSurf('103D');
+//        $scope.input.name = '1';
+//        $scope.fetchPdb('103D');
+//        $scope.input.name = '1';
+//        $scope.fetchPdb('1TUB');
+//        $scope.input.name = '1';
+//        $scope.fetchSurf('103D');
     });
