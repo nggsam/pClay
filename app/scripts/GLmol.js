@@ -164,7 +164,7 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
     };
 
     /* SURF */
-    GLmol.prototype.addSurf = function (rawData, color) {
+    GLmol.prototype.addSurf = function (id, rawData, color) {
         var data = this.parseSurf(rawData);
         var geometry = new THREE.Geometry();
         var myCoordinates = data.coordinates;
@@ -187,9 +187,9 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
         geometry.computeVertexNormals();
 
         //create a new object containing geometry
-        var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: color, transparent: true, opacity: 0.5}));
+        var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: 0xff0000, transparent: true, opacity: 0.5}));
         mesh.position.set(-this.mainCentroid[0], -this.mainCentroid[1], -this.mainCentroid[2]);
-        mesh.name = data.id;
+        mesh.name = id;
         this.surfGroup.add(mesh);
         this.show();
         return mesh;
@@ -323,6 +323,7 @@ GLmol.prototype.setupLights = function(scene) {
     }
     /* Toggle visibility of a surf object */
     GLmol.prototype.surfToggle = function (id) {
+        console.log(this.surfGroup);
         var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
         // Toggle visible of group
         currentSURF.visible = !currentSURF.visible;

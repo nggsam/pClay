@@ -29,19 +29,36 @@ canvas {
     top: 0;
 }
 
-#floating {
-    /*opacity: .9;*/
-    position: absolute;
-    /*top: 0;*/
-    /*left: 0;*/
-    /*width: 300px;*/
-    /*height: auto;*/
+.floating {
     background-color: white;
-    z-index: 99;
-    /*border: 2px solid;*/
-    border-radius: 3px;
     margin: 10px 0px 0px 10px;
     /*opacity: 0.8;*/
     background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 3px;
+    
+}
+#floating-zone {
+    position: absolute;
+    z-index: 99;
+}
+.f-list {
+/*    margin: 10px;*/
+    padding: 10px 0px 10px 0px;
+}
+.f-item {
+    
+}
+.f-item-content {
+/*    margin: 10px;*/
+    padding: 10px 10px 3px 10px;
+}
+.md-button.md-default-theme.md-primary.md-fab.red {
+    background-color: red;
 }
 
+.md-button.md-default-theme.md-primary.md-fab.red:hover {
+    background-color: red;
+}
+.md-button.md-default-theme.md-primary.md-fab.red:active {
+    background-color: red;
+}
