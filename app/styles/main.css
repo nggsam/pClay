@@ -1,7 +1,7 @@
 html, body {
     height: 0%;
     font-family:verdana,arial,sans-serif;
-    color: #ffffff;
+/*    color: #ffffff;*/
 }
 
 .container {
@@ -19,35 +19,29 @@ html, body {
     height: 100vh;
     width: 100vw;
     background-color: black;
-    z-index: 1;
+    z-index: 0;
 }
 
 /* the real canvas */
 canvas {
-    z-index: 2;
     position: absolute;
     top: 0;
+    z-index: 1;
 }
 
 .floating {
-    background-color: white;
+/*    background-color: white;*/
     margin: 10px 0px 0px 10px;
-    /*opacity: 0.8;*/
+/*    width: 400px;*/
     background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 3px;
+    border-radius: 1px;
     
 }
 #floating-zone {
     position: absolute;
-    z-index: 99;
+    z-index: 2;
 }
-.f-list {
-/*    margin: 10px;*/
-    padding: 10px 0px 10px 0px;
-}
-.f-item {
-    
-}
+
 .f-item-content {
 /*    margin: 10px;*/
     padding: 10px 10px 3px 10px;
@@ -61,4 +55,184 @@ canvas {
 }
 .md-button.md-default-theme.md-primary.md-fab.red:active {
     background-color: red;
+}
+
+/* TOP LOADING BAR */
+md-progress-linear .md-container {
+    top: 0px;
+    height: 3px;
+}
+.loading {
+/*    margin: -5px;*/
+/*    padding: 0px;*/
+/*    height: 1px;*/
+}
+
+/* DRAG N DROP*/
+[ng-drag].drag-over{
+    border:solid 1px red;
+}
+[ng-drag].dragging{
+    opacity: 0.5;
+}
+[ng-drag].drag-end{
+    opacity: 1;
+}
+[ng-drag].drop{
+    opacity: 1;
+}
+[ng-drop].drag-enter{
+/*    border:solid 3px red;*/
+    opacity: 0.5;
+}
+[ng-drop].drop{
+    border:solid 3px red;
+    opacity: 1;
+}
+[ng-drop].drag-start {
+    border:solid 3px red;
+}
+[ng-drop].dragging {
+    border:solid 3px red;
+}
+
+/*ALERT*/
+
+
+.dialogdemoBasicUsage .dialogDemo1 {
+    height: 500px; }
+.dialogdemoBasicUsage .full {
+    width: 100%;
+    height: 100%; }
+.dialogdemoBasicUsage .gap {
+    width: 50px; }
+.dialogdemoBasicUsage .md-subheader {
+    background-color: #dcedc8;
+    margin: 0px; }
+.dialogdemoBasicUsage h2.md-subheader {
+    margin: 0px;
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-top: -24px; }
+.dialogdemoBasicUsage h2.md-subheader.md-sticky-clone {
+    margin-right: 0px;
+    margin-top: 0px;
+    box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.16); }
+.dialogdemoBasicUsage h2 .md-subheader-content {
+    padding-left: 10px; }
+
+
+/*FONTS*/
+@font-face {
+    font-family: 'icomoon';
+    src:url('/fonts/icomoon.eot?-mnq6uy');
+    src:url('/fonts/icomoon.eot?#iefix-mnq6uy') format('embedded-opentype'),
+        url('/fonts/icomoon.woff?-mnq6uy') format('woff'),
+        url('/fonts/icomoon.ttf?-mnq6uy') format('truetype'),
+        url('/fonts/icomoon.svg?-mnq6uy#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    color: #444;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+}
+
+.icon-spinner:before {
+    content: "\e97a";
+}
+
+.icon-spinner2:before {
+    content: "\e97b";
+}
+
+.icon-spinner3:before {
+    content: "\e97c";
+}
+
+.icon-spinner8:before {
+    content: "\e981";
+}
+
+.icon-spinner9:before {
+    content: "\e982";
+}
+
+.icon-enlarge:before {
+    content: "\e989";
+}
+
+.icon-menu:before {
+    content: "\e9bd";
+}
+
+.icon-menu2:before {
+    content: "\e9be";
+}
+
+.icon-download3:before {
+    content: "\e9c7";
+}
+
+.icon-earth:before {
+    content: "\e9ca";
+}
+
+.icon-attachment:before {
+    content: "\e9cd";
+}
+
+.icon-eye:before {
+    content: "\e9ce";
+}
+
+.icon-eye-plus:before {
+    content: "\e9cf";
+}
+
+.icon-eye-minus:before {
+    content: "\e9d0";
+}
+
+.icon-eye-blocked:before {
+    content: "\e9d1";
+}
+
+.icon-bookmark:before {
+    content: "\e9d2";
+}
+
+.icon-cross:before {
+    content: "\ea0f";
+}
+
+.icon-checkmark:before {
+    content: "\ea10";
+}
+
+.icon-checkmark2:before {
+    content: "\ea11";
+}
+
+.icon-embed:before {
+    content: "\ea7f";
+}
+
+.icon-settings:before {
+    content: "\e600";
+}
+
+.icon-paperplane:before {
+    content: "\e601";
 }
