@@ -8,7 +8,7 @@
  * Controller of the pclayApp
  */
 angular.module('pclayApp')
-    .controller('MainCtrl', function ($scope, $http) {
+    .controller('MainCtrl', function ($scope, $http, config) {
         $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -49,7 +49,7 @@ angular.module('pclayApp')
         $scope.glmol.init();
 
         // Url for VASPI Server
-        var SERVER = 'http://localhost:8000/';
+        var SERVER = config.server;
 
         function init(scope) {
             //dummy object for input
