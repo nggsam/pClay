@@ -22,7 +22,7 @@ angular
   ])
     .constant('config', {
         appName: 'pClay',
-        server: 'http://54.65.95.7:8000'
+        server: 'http://54.65.95.7:8000/'
     })
     .config(function ($routeProvider) {
         $routeProvider
