@@ -8,7 +8,7 @@
  * Controller of the pclayApp
  */
 angular.module('pclayApp')
-.controller('MainCtrl', function ($scope, $http, config, $mdDialog) {
+.controller('MainCtrl', function ($scope, $http, config, $mdDialog, $mdBottomSheet) {
         $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -110,6 +110,7 @@ angular.module('pclayApp')
             id = id.toUpperCase();
             if ($scope.findDuplicate(id, $scope.pdbList)) {
                 alert('PDB already rendered');
+                $scope.loading = !$scope.loading;
             }
             // Check for undefined or empty input
             else if ($scope.input.name === undefined || $scope.input.name === '') {
@@ -139,6 +140,7 @@ angular.module('pclayApp')
             id = id.toUpperCase();
             if ($scope.findDuplicate(id, $scope.surfList)) {
                 alert('Surf already rendered');
+                $scope.loading = !$scope.loading;
             } else if ($scope.input.name === undefined || $scope.input.name === '') {
                 alert('Please enter Surface ID.');
             } else {
@@ -171,18 +173,10 @@ angular.module('pclayApp')
         //toggle pdb object visibility
         $scope.pdbToggleGL = function (id) {
             $scope.glmol.pdbToggle(id);
+
         }
         $scope.pdbToggle = function (p) {
             $scope.pdbToggleGL(p.id);
-            console.log('pdb toggle');
-            console.log(p);
-            if (p.toggled) {
-                p.toggled = false;
-                p.class = '';
-            } else {
-                p.toggled = true;
-                p.class = 'md-primary';
-            }
         }
 
         //toggle surf object visibility
@@ -191,15 +185,6 @@ angular.module('pclayApp')
         }
         $scope.surfToggle = function (s) {
             $scope.surfToggleGL(s.id);
-            console.log('surf toggle');
-            console.log(s);
-            if (s.toggled) {
-                s.toggled = false;
-                s.class = '';
-            } else {
-                s.toggled = true;
-                s.class = 'md-primary';
-            }
         };
 
         $scope.findDuplicate = function (id, array) {
@@ -271,6 +256,17 @@ angular.module('pclayApp')
             }
             
         }
+
+        $scope.showBottomSheet = function($event) {
+            $scope.alert = '';
+            $mdBottomSheet.show({
+              templateUrl: 'views/bottom-sheet.html',
+              controller: 'BottomSheetCtrl',
+              targetEvent: $event
+            }).then(function(clickedItem) {
+              $scope.alert = clickedItem.name + ' clicked!';
+            });
+          };
     
         function DialogController($scope, $mdDialog) {
             $scope.choose = function(choice) {
@@ -282,7 +278,7 @@ angular.module('pclayApp')
 
         $scope.test = function (mess) {
                 console.log(mess);
-            }
+        }
             /* TESTS ========================== */
         $scope.input.name = '1';
         $scope.fetchPdb('103D');
@@ -290,4 +286,46 @@ angular.module('pclayApp')
         $scope.fetchPdb('103M');
         //        $scope.input.name = '1';
         //        $scope.fetchSurf('103D');
-    });
+    })
+.controller('BottomSheetCtrl', function($scope, $mdBottomSheet) {
+  $scope.items = [
+    { name: 'Share', icon: 'share-arrow' },
+    { name: 'Upload', icon: 'upload' },
+    { name: 'Copy', icon: 'copy' },
+    { name: 'Print this page', icon: 'print' },
+  ];
+  $scope.listItemClick = function($index) {
+    var clickedItem = $scope.items[$index];
+    $mdBottomSheet.hide(clickedItem);
+  };
+})
+.directive('rightClick',function(){
+    document.oncontextmenu = function (e) {
+       if(e.target.hasAttribute('right-click')) {
+           return false;
+       }
+    };
+    return function(scope,el,attrs){
+        el.bind('contextmenu',function(e){
+            e.preventDefault();
+            return attrs.onRightClick;
+            // alert(attrs.onRightClick);               
+        }) ;
+    }
+})
+.directive("myMethod",function($parse) {
+      var directiveDefinitionObject = {
+        restrict: 'A',
+        scope: { method:'&myMethod' },
+        link: function(scope,element,attrs) {
+           var expressionHandler = scope.method();
+           var id = "123";
+            element.bind('contextmenu',function(e){
+                e.preventDefault();
+                console.log(expressionHandler);
+                expressionHandler(id);             
+            }) ;
+        }
+      };
+      return directiveDefinitionObject;
+  });

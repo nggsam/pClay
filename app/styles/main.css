@@ -68,6 +68,13 @@ md-progress-linear .md-container {
 /*    height: 1px;*/
 }
 
+/* Context Menu */
+.context-menu {
+    position: fixed;
+    z-index: 2;
+    background-color: white;
+}
+
 /* DRAG N DROP*/
 [ng-drag].drag-over{
     border:solid 1px red;

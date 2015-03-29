@@ -16,37 +16,49 @@
                         <label>ID</label>
                     </md-input-container>
                     <md-button class="md-raised md-primary" flex ng-click="fetchPdb(input.name)">PDB</md-button>
-                    <md-button class="md-raised md-primary md-hue-1" flex ng-click="fetchSurf(input.name)">SURF</md-button>
+                    <md-button class="md-raised md-primary" flex ng-click="fetchSurf(input.name)">SURF</md-button>
                 </div>
             </div>
             <!-- STRUCTURES -->
             <div class="floating">
-                <div flex layout="row" layout-align="space-around center" layout-padding>
-                    <div flex ng-repeat="pdb in pdbList"  class="md-tile-left">
+                <!-- <md-content> -->
+                <div layout="column" layout-fill>
+                    <md-toolbar md-scroll-shrink>
+                        <div class="md-toolbar-tools">
+                          <h3>
+                            <span>Structures</span>
+                          </h3>
+                        </div>
+                      </md-toolbar>
 
-                        <span ng-drag="true" ng-drag-data="pdb.id" ng-drag-success="onDragComplete($data, $event)" ng-center-anchor="true" class="icon-embed"></span>
-                        <md-button  ng-drop="true" ng-drop-success="onDropComplete($data,$event, pdb.id)"  class="md-fab" ng-class="pdb.class" ng-click="pdbToggle(pdb)">
-                            {{pdb.id}}
-                        </md-button>
-
-                    </div>
+                  <md-whiteframe ng-class="pdb.class" ng-repeat="pdb in pdbList" class="md-whiteframe-z1" layout layout-align="center center">
+                  
+                    <span> {{pdb.id}}</span>  <md-switch ng-model="pdb.toggled" aria-label="Switch" ng-change="pdbToggle(pdb)"> 
+                    </md-switch>
+                     <md-button class="md-raised">X</md-button>
+                  </md-whiteframe>
+                  
                 </div>
+                <!-- </md-content> -->
             </div>
             
             <!-- SURFACES -->
             <div class="floating">
-                <div flex layout="row" layout-align="space-around center" layout-padding>
-                    <div flex ng-repeat="surf in surfList"  class="md-tile-left">
-
-                        <span ng-drag="true" ng-drag-data="surf.id" ng-drag-success="onDragComplete($data, $event)" ng-center-anchor="true" class="icon-embed"></span>
-                        <md-button  ng-drop="true" ng-drop-success="onDropComplete($data,$event, surf.id)"  class="md-fab" ng-class="surf.class" ng-click="surfToggle(pdb)">
-                            {{surf.id}}
-                        </md-button>
-
-                    </div>
+                <div layout="column" layout-fill>
+                     <md-toolbar md-scroll-shrink>
+                        <div class="md-toolbar-tools">
+                          <h3>
+                            <span>Surfaces</span>
+                          </h3>
+                        </div>
+                      </md-toolbar>
+                  <md-whiteframe ng-class="surf.class" ng-repeat="surf in surfList" class="md-whiteframe-z1" layout layout-align="center center">
+                    <span> {{surf.id}}</span>  <md-switch ng-model="surf.toggled" aria-label="Switch" ng-change="surfToggle(surf)">
+                    </md-switch>
+                  </md-whiteframe>
+                  
                 </div>
             </div>
-
         </div>
     </div>
 </div>

@@ -19,7 +19,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngMaterial',
-    'ngDraggable'
+    'ngDraggable',
+    'ng-context-menu'
   ])
     .constant('config', {
         appName: 'pClay',
