@@ -42,6 +42,18 @@ canvas {
     z-index: 2;
 }
 
+#save-workspace {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 10px 30px 0px 0px;
+    z-index: 2;
+}
+
+#toto {
+    text-align: center;
+}
+
 .f-item-content {
 /*    margin: 10px;*/
     padding: 10px 10px 3px 10px;

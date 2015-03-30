@@ -316,11 +316,11 @@ GLmol.prototype.setupLights = function(scene) {
         currentPDB.visible = !currentPDB.visible;
         // Toggle visible of children
         currentPDB.children.forEach(function (child) {
-            console.log(child);
             child.visible = !child.visible;
         })
         this.show();
-    }
+    };
+
     /* Toggle visibility of a surf object */
     GLmol.prototype.surfToggle = function (id) {
         console.log(this.surfGroup);
@@ -329,11 +329,24 @@ GLmol.prototype.setupLights = function(scene) {
         currentSURF.visible = !currentSURF.visible;
         // Toggle visible of children
         currentSURF.children.forEach(function (child) {
-            console.log(child);
             child.visible = !child.visible;
         })
         this.show();
     }
+
+    /* Remove an object from modelGroup -- pdbs */
+    GLmol.prototype.pdbRemove = function(id) {
+      var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
+      this.modelGroup.remove(currentPDB);
+      this.show();
+    };
+
+      /* Remove an object from surfGroup -- surfaces */
+    GLmol.prototype.surfRemove = function(id) {
+      var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
+      this.surfGroup.remove(currentSURF);
+      this.show();
+    };
 GLmol.prototype.parseSDF = function(str) {
    var atoms = this.atoms;
    var protein = this.protein;

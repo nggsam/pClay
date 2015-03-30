@@ -8,7 +8,7 @@
  * Controller of the pclayApp
  */
 angular.module('pclayApp')
-.controller('MainCtrl', function ($scope, $http, config, $mdDialog, $mdBottomSheet) {
+.controller('MainCtrl', function ($scope, $http, $location, $routeParams, config, $mdDialog, $mdBottomSheet, $mdToast) {
         $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -115,6 +115,7 @@ angular.module('pclayApp')
             // Check for undefined or empty input
             else if ($scope.input.name === undefined || $scope.input.name === '') {
                 alert('Please enter PDB ID.');
+                $scope.loading = !$scope.loading;
             } else {
                 // Reset input
                 $scope.input.reset();
@@ -187,6 +188,16 @@ angular.module('pclayApp')
             $scope.surfToggleGL(s.id);
         };
 
+        $scope.pdbRemove = function(p, index) {
+            $scope.glmol.pdbRemove(p.id); //remove from scene
+            $scope.pdbList.splice(index, 1); //remove from list
+        };
+
+        $scope.surfRemove = function(s, index) {
+            $scope.glmol.surfRemove(s.id); //remove from scene
+            $scope.surfList.splice(index, 1); //remove from list
+        };
+
         $scope.findDuplicate = function (id, array) {
             for (var i = 0; i < array.length; i++) {
                 console.log(array[i]);
@@ -222,7 +233,52 @@ angular.module('pclayApp')
                 $scope.alert = 'You cancelled the dialog.';
             });
         };
+
+        $scope.showToast = function(msg) {
+            $mdToast.show(
+              $mdToast.simple()
+                .content(msg)
+                .position('bottom left')
+                .hideDelay(3000)
+            );
+          };
         
+        $scope.saved = false;
+        $scope.saveWorkspace = function() {
+            console.log('Saving workspace');
+            if($scope.saved) {
+                // do sth here?
+            } else {
+                // workspace has not been saved
+                $scope.loading = !$scope.loading; // loading animation
+
+                var info = {
+                    pdb: [],
+                    surf: []
+                };
+
+                $scope.pdbList.map(function(pdb) {
+                    info.pdb.push(pdb.id);
+                })
+                $scope.surfList.map(function(surf) {
+                    info.surf.push(surf.id);
+                })
+                console.log(info);
+
+                //save info to server
+
+                //receive info from server, give a unique url
+
+                //change current url to that url
+                var id = 'abcd'
+                $location.search('workspace', id);
+                //afterwards, stop loading animation
+                //and give a toast to the user, providing the unique url
+                // $location.path("/?ws=123").replace().reload(false)
+                $scope.showToast('Workspace saved at pclay.io/' +  id);
+                $scope.loading = !$scope.loading;
+            }
+        };
         function doVASP(op, id1, id2, color) {
             var uri = $scope.ops.vasp(op, id1, id2);
             $scope.loading = true;
@@ -280,10 +336,24 @@ angular.module('pclayApp')
                 console.log(mess);
         }
             /* TESTS ========================== */
+
         $scope.input.name = '1';
         $scope.fetchPdb('103D');
         $scope.input.name = '1';
         $scope.fetchPdb('103M');
+        console.log('Route params', $routeParams);
+
+        //get routeParams
+
+        if($routeParams.ws) {
+            console.log("THERE IS A ROUTE PARAMS!");
+        } else {
+            //nothing
+        }
+
+
+
+
         //        $scope.input.name = '1';
         //        $scope.fetchSurf('103D');
     })
@@ -298,34 +368,4 @@ angular.module('pclayApp')
     var clickedItem = $scope.items[$index];
     $mdBottomSheet.hide(clickedItem);
   };
-})
-.directive('rightClick',function(){
-    document.oncontextmenu = function (e) {
-       if(e.target.hasAttribute('right-click')) {
-           return false;
-       }
-    };
-    return function(scope,el,attrs){
-        el.bind('contextmenu',function(e){
-            e.preventDefault();
-            return attrs.onRightClick;
-            // alert(attrs.onRightClick);               
-        }) ;
-    }
-})
-.directive("myMethod",function($parse) {
-      var directiveDefinitionObject = {
-        restrict: 'A',
-        scope: { method:'&myMethod' },
-        link: function(scope,element,attrs) {
-           var expressionHandler = scope.method();
-           var id = "123";
-            element.bind('contextmenu',function(e){
-                e.preventDefault();
-                console.log(expressionHandler);
-                expressionHandler(id);             
-            }) ;
-        }
-      };
-      return directiveDefinitionObject;
-  });
+});

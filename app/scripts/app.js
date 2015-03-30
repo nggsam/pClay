@@ -19,14 +19,13 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngMaterial',
-    'ngDraggable',
-    'ng-context-menu'
+    'ngMdIcons'
   ])
     .constant('config', {
         appName: 'pClay',
         server: 'http://54.165.42.10:8000/' //TODO: make an ENV for this
     })
-    .config(function ($routeProvider) {
+    .config(function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
@@ -39,4 +38,7 @@ angular
             .otherwise({
                 redirectTo: '/'
             });
+
+        $locationProvider.html5Mode(true);
+
     });

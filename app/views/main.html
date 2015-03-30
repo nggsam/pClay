@@ -1,10 +1,16 @@
 <div class="content">
     <!-- WHOLE CANVAS -->
     <div id="canvas">
-        <div id="toggle-btn">
-        
-        </div>
         <!-- FLOATING ZONE -->
+        <div id="save-workspace">
+          <md-tooltip id="toto">
+             <span>Save <br> workspace</span>
+          </md-tooltip>
+          <md-button ng-click="saveWorkspace()" class="md-primary">
+            <ng-md-icon icon="save" style="fill: #ffffff" size="48"></ng-md-icon> 
+          </md-button>
+
+        </div>
         <div id="floating-zone">
             <!-- INPUT ZONE -->
             <div class="floating" layout="column" layout-align="center center">
@@ -35,7 +41,9 @@
                   
                     <span> {{pdb.id}}</span>  <md-switch ng-model="pdb.toggled" aria-label="Switch" ng-change="pdbToggle(pdb)"> 
                     </md-switch>
-                     <md-button class="md-raised">X</md-button>
+                     <md-button class="" ng-click="pdbRemove(pdb, $index)">
+                      <ng-md-icon icon="delete"></ng-md-icon> 
+                      </md-button>
                   </md-whiteframe>
                   
                 </div>
@@ -45,7 +53,7 @@
             <!-- SURFACES -->
             <div class="floating">
                 <div layout="column" layout-fill>
-                     <md-toolbar md-scroll-shrink>
+                     <md-toolbar md-scroll-shrink class="md-primary">
                         <div class="md-toolbar-tools">
                           <h3>
                             <span>Surfaces</span>
@@ -55,6 +63,9 @@
                   <md-whiteframe ng-class="surf.class" ng-repeat="surf in surfList" class="md-whiteframe-z1" layout layout-align="center center">
                     <span> {{surf.id}}</span>  <md-switch ng-model="surf.toggled" aria-label="Switch" ng-change="surfToggle(surf)">
                     </md-switch>
+                    <md-button class="" ng-click="pdbRemove(pdb, $index)">
+                     <ng-md-icon icon="delete"></ng-md-icon> 
+                     </md-button>
                   </md-whiteframe>
                   
                 </div>
