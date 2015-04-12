@@ -14,7 +14,6 @@ angular
     'ngAria',
     'ngCookies',
     'ngMessages',
-    //'ngResource',
     'ngRoute',
     'ngSanitize',
     'ngTouch',
@@ -22,14 +21,14 @@ angular
     'ngMdIcons'
   ])
     .constant('config', {
-        appName: 'pClay',
+        appName: 'SMS',
         server: 'http://54.165.42.10:8000/' //TODO: make an ENV for this
     })
     .config(function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
+                controller: 'MainCtrl as ctrl'
             })
             .when('/about', {
                 templateUrl: 'views/about.html',

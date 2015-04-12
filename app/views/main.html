@@ -1,76 +1,98 @@
 <div class="content">
-    <!-- WHOLE CANVAS -->
-    <div id="canvas">
-        <!-- FLOATING ZONE -->
-        <div id="save-workspace">
-          <md-tooltip id="toto">
-             <span>Save <br> workspace</span>
-          </md-tooltip>
-          <md-button ng-click="saveWorkspace()" class="md-primary">
-            <ng-md-icon icon="save" style="fill: #ffffff" size="48"></ng-md-icon> 
-          </md-button>
+  <div id="top">
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="view_headline" style="fill: #ffffff" size="50"></ng-md-icon> 
+    </md-button>
+     <h1 style="font-size: 60px; text-align:center" class="md-display-4 welcome">
+          Welcome back<br>John
+        </h1>
+  </div>
 
-        </div>
-        <div id="floating-zone">
-            <!-- INPUT ZONE -->
-            <div class="floating" layout="column" layout-align="center center">
-                
-                <md-progress-linear class="loading" md-mode="indeterminate" ng-show="loading"></md-progress-linear>
-                <div flex layout="row" layout-align="center center" layout-margin>
-                    <md-input-container flex="50">
-                        <input ng-model="input.name">
-                        <label>ID</label>
-                    </md-input-container>
-                    <md-button class="md-raised md-primary" flex ng-click="fetchPdb(input.name)">PDB</md-button>
-                    <md-button class="md-raised md-primary" flex ng-click="fetchSurf(input.name)">SURF</md-button>
-                </div>
-            </div>
-            <!-- STRUCTURES -->
-            <div class="floating">
-                <!-- <md-content> -->
-                <div layout="column" layout-fill>
-                    <md-toolbar md-scroll-shrink>
-                        <div class="md-toolbar-tools">
-                          <h3>
-                            <span>Structures</span>
-                          </h3>
-                        </div>
-                      </md-toolbar>
+  <div layout="column" layout-align="center center" class="main">
 
-                  <md-whiteframe ng-class="pdb.class" ng-repeat="pdb in pdbList" class="md-whiteframe-z1" layout layout-align="center center">
-                  
-                    <span> {{pdb.id}}</span>  <md-switch ng-model="pdb.toggled" aria-label="Switch" ng-change="pdbToggle(pdb)"> 
-                    </md-switch>
-                     <md-button class="" ng-click="pdbRemove(pdb, $index)">
-                      <ng-md-icon icon="delete"></ng-md-icon> 
-                      </md-button>
-                  </md-whiteframe>
-                  
-                </div>
-                <!-- </md-content> -->
-            </div>
-            
-            <!-- SURFACES -->
-            <div class="floating">
-                <div layout="column" layout-fill>
-                     <md-toolbar md-scroll-shrink class="md-primary">
-                        <div class="md-toolbar-tools">
-                          <h3>
-                            <span>Surfaces</span>
-                          </h3>
-                        </div>
-                      </md-toolbar>
-                  <md-whiteframe ng-class="surf.class" ng-repeat="surf in surfList" class="md-whiteframe-z1" layout layout-align="center center">
-                    <span> {{surf.id}}</span>  <md-switch ng-model="surf.toggled" aria-label="Switch" ng-change="surfToggle(surf)">
-                    </md-switch>
-                    <md-button class="" ng-click="pdbRemove(pdb, $index)">
-                     <ng-md-icon icon="delete"></ng-md-icon> 
-                     </md-button>
-                  </md-whiteframe>
-                  
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+       
+         
+     <div layout="row" layout-align="center center" class="input">
+       <div flex="88">
+         <md-autocomplete
+                   ng-disabled="ctrl.isDisabled"
+                   md-no-cache="ctrl.noCache"
+                   md-selected-item="ctrl.selectedItem"
+                   md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                   md-search-text="ctrl.searchText"
+                   md-selected-item-change="ctrl.selectedItemChange(item)"
+                   md-items="item in ctrl.querySearch(ctrl.searchText)"
+                   md-item-text="item.display"
+                   placeholder="What do you like to do?">
+                 <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
+         </md-autocomplete>
+
+       </div>
+       <div flex="10">
+           <md-button class="md-raised" aria-label="Settings">
+             <ng-md-icon icon="search" style="fill: #ff0000" size="24"></ng-md-icon> 
+           </md-button>
+       </div>
+     </div>
+
+     <br>
+      <div class="list personal" flex>
+        <h1 style="font-size: 40px">Personal</h1>
+
+            <md-card>
+              <md-card-content>
+                <h2 class="md-title">Bing</h2>
+    <canvas id="myChart" width="640" height="100"></canvas>              </md-card-content>
+            </md-card>
+      </div>
+
+      <br>
+      <div class="list work" flex>
+        <h1 style="font-size: 40px">Work</h1>
+            <md-card >
+             <h2 style="text-align:center" class="md-title">Fast Response <span style="font-size: 12px; text-align: right">{{ctrl.grannyDetail}}</span></h2>
+
+              <md-card-content>
+               <md-grid-list
+                      md-cols-gt-md="12" md-cols-sm="3" md-cols-md="8"
+                      md-row-height-gt-md="1:1" md-row-height="4:3"
+                      md-gutter-gt-md="16px" md-gutter-gt-sm="8px" md-gutter="4px">
+                    <md-grid-tile
+                        ng-repeat="tile in ctrl.colorTiles"
+                        ng-style="{
+                          'background': tile.color
+                        }",
+                        ng-mouseover="ctrl.grannize(tile)"
+                        md-colspan-gt-sm="{{tile.colspan}}"
+                        md-rowspan-gt-sm="{{tile.rowspan}}">
+                    </md-grid-tile>
+                  </md-grid-list>
+              </md-card-content>
+            </md-card>
+            <md-card>
+              <md-card-content>
+                <h2 class="md-title">Broadcast</h2>
+
+
+                <div style="color:white" layout layout-sm="column">
+                      <md-progress-linear md-mode="indeterminate" id="progress" ng-show="ctrl.progressing"></md-progress-linear>
+                       <md-input-container flex="33">
+                         <label style="color:white">Channel</label>
+                         <input style="color:white" ng-model="ctrl.channelAll">
+                       </md-input-container>
+                       <md-input-container flex="66">
+                         <label style="color:white">Message</label>
+                         <input style="color:white" ng-model="ctrl.messageAll">
+                       </md-input-container>
+                       <md-input-container flex="11">
+                        <md-button ng-click="ctrl.broadcast(ctrl.messageAll)" class="md-icon-button" aria-label="Settings">
+                             <ng-md-icon icon="send" style="fill: #ffffff" size="30"></ng-md-icon> 
+                           </md-button>
+                       </md-input-container>
+                     </div>
+              </md-card-content>
+            </md-card>
+          
+      </div>
+  </div>
 </div>
