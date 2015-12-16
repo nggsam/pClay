@@ -84,6 +84,9 @@ angular.module('pclayApp')
 
         /** Get PDB info from server and add it to scene */
         $scope.fetchPdb = function (id) {
+            if(!id) {
+                return
+            }
             id = id.toUpperCase();
             if($scope.findDuplicate(id, $scope.pdbList)) {
                 alert('PDB already rendered');
@@ -110,6 +113,10 @@ angular.module('pclayApp')
 
         /** Get surf with id and add to scene  */
         $scope.fetchSurf = function (id, color) {
+            if(!id) {
+                return
+            }
+
             id = id.toUpperCase();
             if($scope.findDuplicate(id, $scope.surfList)) {
                 alert('Surf already rendered');
@@ -188,6 +195,7 @@ angular.module('pclayApp')
         $scope.test = function (mess) {
                 console.log(mess);
             }
+            
             /* TESTS ========================== */
 //        $scope.input.name = '1';
 //        $scope.fetchPdb('103D');
