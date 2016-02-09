@@ -67,7 +67,7 @@ angular.module('pclayApp')
 
 
         // color to rotate to render
-        $scope.colors = ['0xff0000', '0x00ff00', '0x0000ff', '0xf0f0f0'];
+        $scope.colors = ['0xff0000', '0x00ff00', '0x0000ff', '0xf0f0f0', '0x0f0f0f'];
         $scope.colorsIndex = 0; 
 
         $scope.mouseFloating = function () {
