@@ -27,8 +27,32 @@ html, body {
     /*width: 1000px;*/
 }
 
+<<<<<<< HEAD
 .input {
     width: 600px;
+=======
+
+#floating-zone {
+    position: absolute;
+    z-index: 99;
+}
+
+#floating-zone .floating {
+    background-color: black;
+    margin: 10px 0px 0px 10px;
+    padding: 0px 5px;
+    /*opacity: 0.8;*/
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 2px;
+
+    /*height: 300px;*/
+    /*width: 300px;*/
+}
+
+.f-list {
+/*    margin: 10px;*/
+    padding: 10px 0px 10px 0px;
+>>>>>>> dropzone
 }
 
 .list {
@@ -43,6 +67,63 @@ md-card {
 }
 
 
+<<<<<<< HEAD
 .welcome {
     color: white;
 }
+=======
+#dropzone-x {
+    height: 10vh;
+    width: 20vw;
+    border: 2px dashed #0087F7;
+    color: black;
+    padding: 5px;
+    margin: 10px 10px;
+}
+
+#dropzone-x.xdrag {
+    background-color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> dropzone
