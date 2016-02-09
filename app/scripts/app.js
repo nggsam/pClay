@@ -14,31 +14,22 @@ angular
     'ngAria',
     'ngCookies',
     'ngMessages',
+    //'ngResource',
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngMaterial',
-    'ngMdIcons'
+    'ngMaterial'
   ])
     .constant('config', {
-<<<<<<< HEAD
-        appName: 'SMS',
-        server: 'http://54.165.42.10:8000/' //TODO: make an ENV for this
-=======
         appName: 'pClay',
         // server: 'http://54.65.95.7:8000'
         server: 'http://localhost:8000/'
->>>>>>> dropzone
     })
-<<<<<<< HEAD
-    .config(function ($routeProvider, $locationProvider) {
-=======
     .config(function ($routeProvider, $mdThemingProvider) {
->>>>>>> dropSurf
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
-                controller: 'MainCtrl as ctrl'
+                controller: 'MainCtrl'
             })
             .when('/about', {
                 templateUrl: 'views/about.html',
@@ -48,10 +39,6 @@ angular
                 redirectTo: '/'
             });
 
-<<<<<<< HEAD
-        $locationProvider.html5Mode(true);
-
-=======
         $mdThemingProvider.definePalette('amazingPaletteName', {
           '50': 'ffebee',
           '100': 'ffcdd2',
@@ -77,5 +64,4 @@ angular
         $mdThemingProvider.theme('default')
             .primaryPalette('amber')
             .accentPalette('grey');
->>>>>>> dropSurf
     });

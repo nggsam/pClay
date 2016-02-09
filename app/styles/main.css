@@ -2,11 +2,6 @@ html, body {
     height: 0%;
     font-family:verdana,arial,sans-serif;
     color: #ffffff;
-    background: url('../images/bg.png') no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
 }
 
 .container {
@@ -20,18 +15,21 @@ html, body {
 
 }
 
-.main {
-    text-align: center;
+/* canvas div to contain both canvas and floating div */
+#canvas {
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    z-index: 1;
 }
 
-.search-box {
-    /*width: 1000px;*/
+/* the real canvas */
+canvas {
+    z-index: 2;
+    position: absolute;
+    top: 0;
 }
 
-<<<<<<< HEAD
-.input {
-    width: 600px;
-=======
 
 #floating-zone {
     position: absolute;
@@ -69,15 +67,10 @@ html, body {
 .f-list {
 /*    margin: 10px;*/
     padding: 10px 0px 10px 0px;
->>>>>>> dropzone
 }
-
-.list {
-    width: 800px;
+.f-item {
     
 }
-<<<<<<< HEAD
-=======
 .f-item-content {
 /*    margin: 10px;*/
     /*padding: 10px 10px 3px 10px;*/
@@ -86,12 +79,12 @@ html, body {
 .md-button.md-default-theme.md-primary.md-fab.red {
     background-color: red;
 }
->>>>>>> dropSurf
 
-md-card {
-    background: rgba(255, 255, 255, 0.3); 
-    height: 200px;
-    font-family: "Verdana";
+.md-button.md-default-theme.md-primary.md-fab.red:hover {
+    background-color: red;
+}
+.md-button.md-default-theme.md-primary.md-fab.red:active {
+    background-color: red;
 }
 
 div.md-tile-left {
@@ -99,11 +92,6 @@ div.md-tile-left {
 }
 
 
-<<<<<<< HEAD
-.welcome {
-    color: white;
-}
-=======
 #dropzone-x {
     height: 10vh;
     width: 15vw;
@@ -175,4 +163,3 @@ md-list {
 
 
 
->>>>>>> dropzone
