@@ -7,6 +7,7 @@
  * # MainCtrl
  */
 angular.module('pclayApp')
+<<<<<<< HEAD
 .controller('MainCtrl', function ($timeout, $q, $log, $interval, $http) {
 
     var self = this;
@@ -56,6 +57,30 @@ angular.module('pclayApp')
         return {
           value: state.toLowerCase(),
           display: state
+=======
+    .controller('MainCtrl', function ($scope, $http, config) {
+
+        $scope.loadingBarVisible = false;
+
+        
+        $scope.floatingClass = 'floating-blur';
+
+
+        // color to rotate to render
+        $scope.colors = ['0xff0000', '0x00ff00', '0x0000ff', '0xf0f0f0'];
+        $scope.colorsIndex = 0; 
+
+        $scope.mouseFloating = function () {
+            if (this.mouseover) {
+                console.log(this);
+                $scope.floatingClass = 'floating-blur';
+                this.mouseover = false;
+            } else {
+                console.log(this);
+                $scope.floatingClass = 'floating-show';
+                this.mouseover = true;
+            }
+>>>>>>> dropSurf
         };
 <<<<<<< HEAD
       });
@@ -345,6 +370,29 @@ angular.module('pclayApp')
             }
         };
 
+        /** Render surf with id and add to scene  */
+        $scope.renderSurf = function (id, data, color) {
+            console.log('Rendering', id, color);
+            $scope.showLoadingBar();
+            if(!id) {
+                return
+            }
+            id = id.toUpperCase();
+            if($scope.findDuplicate(id, $scope.surfList)) {
+                alert('Surf already rendered');
+            } else {
+                $scope.glmol.addSurf(id, data, color);
+
+                $scope.$apply(function(){
+                    $scope.surfListVisible = true;
+                    $scope.surfList.push(new $scope.surf(id, 'md-primary'));
+                })
+
+                console.log($scope.surfList);
+            }
+            $scope.hideLoadingBar();
+        };
+
         //toggle pdb object visibility
         $scope.pdbToggleGL = function (id) {
             $scope.glmol.pdbToggle(id);
@@ -387,11 +435,19 @@ angular.module('pclayApp')
                 }
             }
             return false;
-        }
+        };
 
-        $scope.test = function (mess) {
-                console.log(mess);
-            }
+        $scope.showLoadingBar = function() {
+            $scope.$apply(function(){
+                $scope.loadingBarVisible = true;
+            });
+        };
+
+        $scope.hideLoadingBar = function() {
+            $scope.$apply(function(){
+                $scope.loadingBarVisible = false;
+            })
+        };
 
         // 
         // Test DropZone
@@ -399,15 +455,15 @@ angular.module('pclayApp')
             readAsDefault: 'Text',
             dragClass: "xdrag",
             on: {
-                beforestart: function(e) {
-                    console.log(e);
-                    if(e.extra) {
-                        var ext = e.extra.extension.toLowerCase();
-                        console.log(ext);
-                        if(ext === "surf" && ext === "pdb") {
-                            // pdb file
+                beforestart: function(file) {
+                    $scope.showLoadingBar();
+                    if(file.extra) {
+                        var ext = file.extra.extension.toLowerCase();
+                        if(ext === "surf" || ext === "pdb") {
+                            // pdb or surf file
                         } else {
                             // other types? reject
+                           $scope.hideLoadingBar();
                             alert("Please only drop SURF or PDB files");
                             return false;
                         }
@@ -425,23 +481,26 @@ angular.module('pclayApp')
                 // console.log(e.target.result);
                 // console.log(file);
                 // check extension
-                if(e.extra) {
-                    var ext = e.extra.extension.toLowerCase();
+                if(file.extra) {
+                    var ext = file.extra.extension.toLowerCase();
                     if(ext === "surf") {
-                        // surfile
-                        var content = e.target.result;
-                        var id = "103D";
-                         
-                        $scope.glmol.addSurf(id, data, color);
+                        // SURF file
+                        var data = e.target.result;
+                        var id = file.extra.nameNoExtension;
+                        var color = $scope.colors[$scope.colorsIndex++]; 
+                        // if out of bound, reset 
+                        if($scope.colorsIndex == $scope.colors.length)
+                            $scope.colorsIndex = 0;
 
-                        // add to list
-                        $scope.surfList.push(new $scope.surf(id, 'md-primary'));
-                        // call gensurf
+                        $scope.renderSurf(id, data, color);
+
                     } else if(ext === "pdb") {
                         // pdb file
                         // how to generate surf file?
                     }
                 }
+
+                $scope.hideLoadingBar();
               },
               error: function(e, file) {
                 console.log(e);
