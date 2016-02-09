@@ -100,7 +100,7 @@ angular.module('pclayApp')
                 $http.get(SERVER + $scope.ops.pdb + id)
                     .success(function (data) {
                         console.log('Fetching', id, 'done.');
-                        $scope.glmol.addPDB(id, data);
+                        $scope.glmol.addPDB(id, data.data);
 
                         // add to list
                         $scope.pdbList.push(new $scope.pdb(id, 'md-primary'));
@@ -195,6 +195,82 @@ angular.module('pclayApp')
         $scope.test = function (mess) {
                 console.log(mess);
             }
+
+        // 
+        // Test DropZone
+        var fileReaderOpts = {
+            readAsDefault: 'Text',
+            dragClass: "xdrag",
+            on: {
+                beforestart: function(e) {
+                    console.log(e);
+                    if(e.extra) {
+                        var ext = e.extra.extension.toLowerCase();
+                        console.log(ext);
+                        if(ext === "surf" && ext === "pdb") {
+                            // pdb file
+                        } else {
+                            // other types? reject
+                            alert("Please only drop SURF or PDB files");
+                            return false;
+                        }
+                    }
+                },
+
+              load: function(e, file) {
+                // console.log(e);
+                // console.log(e.target.result);
+                // console.log(file);
+              },
+
+              loadend: function(e, file) {
+                // console.log(e);
+                // console.log(e.target.result);
+                // console.log(file);
+                // check extension
+                if(e.extra) {
+                    var ext = e.extra.extension.toLowerCase();
+                    if(ext === "surf") {
+                        // surfile
+                        var content = e.target.result;
+                        var id = "103D";
+                         
+                        $scope.glmol.addSurf(id, data, color);
+
+                        // add to list
+                        $scope.surfList.push(new $scope.surf(id, 'md-primary'));
+                        // call gensurf
+                    } else if(ext === "pdb") {
+                        // pdb file
+                        // how to generate surf file?
+                    }
+                }
+              },
+              error: function(e, file) {
+                console.log(e);
+              },
+              groupstart: function(group) {
+              },
+              groupend: function(group) {
+              }
+            }
+        };
+        // $("#file-input, #dropzone").fileReaderJS(fileReaderOpts);
+        $("#dropzone-x").fileReaderJS(fileReaderOpts);
+        // Disabling autoDiscover, otherwise Dropzone will try to attach twice.
+        // Dropzone.autoDiscover = false;
+        // var fileDropzone = new Dropzone("div#dropzone-x", {url: "/file/post"});
+        // fileDropzone.on("addedfile", function(file) {
+        //     console.log("Filed added!");
+        //     console.log(file);
+        // });
+
+        // fileDropzone.on("error", function(first, second) {
+        //     console.log("Error");
+        //     console.log(first);
+        //     console.log(second);
+        // })
+
             
             /* TESTS ========================== */
 //        $scope.input.name = '1';

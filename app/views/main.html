@@ -4,7 +4,7 @@
         <!-- FLOATING ZONE -->
         <div id="floating-zone">
             <div class="floating" layout="column" layout-align="center center">
-                <div flex layout="row" layout-align="center center" layout-margin>
+                <!-- <div flex layout="row" layout-align="center center" layout-margin>
                     <md-input-container flex="50">
                         <input ng-model="input.name">
                         <label>ID</label>
@@ -12,26 +12,33 @@
                     <md-button class="md-raised md-primary" flex ng-click="fetchPdb(input.name)">PDB</md-button>
                     <md-button class="md-raised md-primary md-hue-1" flex ng-click="fetchSurf(input.name)">SURF</md-button>
                 </div>
+
+                <div flex layout="row" layout-align="center center" layout-margin>
+
+                </div>
+ -->
+                <!-- <input type="file" id="file-input" name="file-input" multiple /> -->
+                <div id="dropzone-x" class="dropzone">
+                    Drop PDB or SURF files here
+                </div>
+
             </div>
-            <div class="floating f-list" flex layout-align="center center" layout-margin>
+            <!-- <div class="floating f-list" flex layout-align="center center" layout-margin>
                 <md-list>
                     <md-item class="f-item" ng-repeat="pdb in pdbList">
                         <md-item-content class="f-item-content">
                             <div class="md-tile-left">
                                 <md-button data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}" class="md-fab" ng-class="pdb.class" ng-click="pdbToggle(pdb)">
                                     {{pdb.id}}
-<!--                                    <md-icon md-svg-src="img/icons/android.svg"></md-icon>-->
                                 </md-button>
                                 
                             </div>
                             <div class="md-tile-content">
-<!--                                <h3>{{pdb.id}}</h3>-->
-<!--                                <h4>{{pdb.who}}</h4>-->
                             </div>
                         </md-item-content>
                     </md-item>
                 </md-list>
-            </div>
+            </div> -->
             <div class="floating f-list" flex layout-align="center center" layout-margin>
                 <md-list>
                     <md-item class="f-item" ng-repeat="surf in surfList">
