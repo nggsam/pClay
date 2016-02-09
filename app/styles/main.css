@@ -107,7 +107,10 @@ div.md-tile-left {
 }
 
 #dropzone-x.xdrag {
-    background-color: black;
+    /*background-color: rgba(255, 255, 255, 1);*/
+    border: 2px dashed #0EBFE9;
+    color: #0087F7;
+
 }
 
 #loading-bar {
