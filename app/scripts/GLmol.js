@@ -64,7 +64,6 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
     this.centroids = {};
 
    this.container = $('#' + canvas_id);
-    console.log(this.container);
    this.WIDTH = this.container.width() * this.aaScale, this.HEIGHT = this.container.height() * this.aaScale;
    this.ASPECT = this.WIDTH / this.HEIGHT;
    this.NEAR = 1;
@@ -142,12 +141,9 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
     GLmol.prototype.init = function () {
         var time = new Date();
         var view = this.getView();
-        console.log('VIEW');
-        console.log(view);
         this.initializeScene();
 //    this.defineRepresentation();
 //    this.setView(view);
-        console.log("built scene in " + (+new Date() - time) + "ms");
     };
 
     /* =============================================================== */
@@ -187,10 +183,12 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
         geometry.computeVertexNormals();
 
         //create a new object containing geometry
-        var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: 0xff0000, transparent: true, opacity: 0.5}));
+        // var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: 0xff0000, transparent: true, opacity: 0.5}));
+        var mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: color, wireframe: false}));
         mesh.position.set(-this.mainCentroid[0], -this.mainCentroid[1], -this.mainCentroid[2]);
         mesh.name = id;
         this.surfGroup.add(mesh);
+        this.show();
         this.show();
         return mesh;
     }
@@ -1950,7 +1948,7 @@ GLmol.prototype.show = function() {
    var time = new Date();
    this.setSlabAndFog();
    this.renderer.render(this.scene, this.camera);
-   console.log("rendered in " + (+new Date() - time) + "ms");
+   // console.log("rendered in " + (+new Date() - time) + "ms");
 };
 
 // For scripting

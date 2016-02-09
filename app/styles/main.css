@@ -12,6 +12,7 @@ html, body {
 .content {
   height: 100%;
   width: 100%;
+
 }
 
 /* canvas div to contain both canvas and floating div */
@@ -47,6 +48,22 @@ canvas {
     /*width: 300px;*/
 }
 
+#floating-zone .floating:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+#floating-zone .floating.sub {
+    background-color: rgba(255, 255, 255, 0);
+    margin: 3px 0px 0px 10px;
+
+    > button {
+        color: white;
+    }
+}
+#floating-zone .floating.sub:hover {
+    background-color: rgba(255, 255, 255, 0);
+}
+
 .f-list {
 /*    margin: 10px;*/
     padding: 10px 0px 10px 0px;
@@ -56,7 +73,8 @@ canvas {
 }
 .f-item-content {
 /*    margin: 10px;*/
-    padding: 10px 10px 3px 10px;
+    /*padding: 10px 10px 3px 10px;*/
+    padding: 0px;
 }
 .md-button.md-default-theme.md-primary.md-fab.red {
     background-color: red;
@@ -69,24 +87,45 @@ canvas {
     background-color: red;
 }
 
+div.md-tile-left {
+    text-align: center;
+}
+
 
 #dropzone-x {
     height: 10vh;
-    width: 20vw;
+    width: 15vw;
     border: 2px dashed #0087F7;
     color: black;
     padding: 5px;
     margin: 10px 10px;
+    text-align: center;
+
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
 }
 
 #dropzone-x.xdrag {
     background-color: black;
 }
 
+#loading-bar {
+    height: 2px;
+}
 
+md-progress-linear#loading-bar .md-container {
+    height: 4px;
+}
 
+.md-button.md-raised.btn1 {
+    color: #000000;
+    margin: 0px 0px 6px 0px;
+}
 
-
+md-list {
+    padding: 5px 0px 0px 0px;
+}
 
 
 
