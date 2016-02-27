@@ -1,0 +1,168 @@
+html, body {
+    height: 0%;
+    font-family:verdana,arial,sans-serif;
+    color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+
+}
+
+/* canvas div to contain both canvas and floating div */
+#canvas {
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    z-index: 1;
+}
+
+/* the real canvas */
+canvas {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+}
+
+
+#floating-zone {
+    position: absolute;
+    z-index: 99;
+}
+
+#floating-zone .floating {
+    background-color: black;
+    margin: 10px 0px 0px 10px;
+    padding: 0px 5px;
+    /*opacity: 0.8;*/
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 2px;
+
+    /*height: 300px;*/
+    /*width: 300px;*/
+}
+
+#floating-zone .floating:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+#floating-zone .floating.sub {
+    background-color: rgba(255, 255, 255, 0);
+    margin: 3px 0px 0px 10px;
+
+    > button {
+        color: white;
+    }
+}
+#floating-zone .floating.sub:hover {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.f-list {
+/*    margin: 10px;*/
+    padding: 10px 0px 10px 0px;
+}
+.f-item {
+    
+}
+.f-item-content {
+/*    margin: 10px;*/
+    /*padding: 10px 10px 3px 10px;*/
+    padding: 0px;
+}
+.md-button.md-default-theme.md-primary.md-fab.red {
+    background-color: red;
+}
+
+.md-button.md-default-theme.md-primary.md-fab.red:hover {
+    background-color: red;
+}
+.md-button.md-default-theme.md-primary.md-fab.red:active {
+    background-color: red;
+}
+
+div.md-tile-left {
+    text-align: center;
+}
+
+
+#dropzone-x {
+    height: 10vh;
+    width: 15vw;
+    border: 2px dashed #0087F7;
+    color: black;
+    padding: 5px;
+    margin: 10px 10px;
+    text-align: center;
+
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+}
+
+#dropzone-x.xdrag {
+    /*background-color: rgba(255, 255, 255, 1);*/
+    border: 2px dashed #0EBFE9;
+    color: #0087F7;
+
+}
+
+#loading-bar {
+    height: 2px;
+}
+
+md-progress-linear#loading-bar .md-container {
+    height: 4px;
+}
+
+.md-button.md-raised.btn1 {
+    color: #000000;
+    margin: 0px 0px 6px 0px;
+}
+
+md-list {
+    padding: 5px 0px 0px 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
