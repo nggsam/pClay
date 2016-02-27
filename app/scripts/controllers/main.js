@@ -238,6 +238,9 @@ angular.module('pclayApp')
             dragClass: "xdrag",
             on: {
                 beforestart: function(file) {
+                    
+                    $("#dropnoti").hide();
+
                     $scope.showLoadingBar();
                     if(file.extra) {
                         var ext = file.extra.extension.toLowerCase();
@@ -293,8 +296,29 @@ angular.module('pclayApp')
               }
             }
         };
+
+
         // $("#file-input, #dropzone").fileReaderJS(fileReaderOpts);
-        $("#dropzone-x").fileReaderJS(fileReaderOpts);
+        // $("#dropzone-x").fileReaderJS(fileReaderOpts);
+        $("#canvas").fileReaderJS(fileReaderOpts);
+        $("#dropnoti").hide();
+
+        // Test drag
+        var dragTimer;
+        $('#canvas').on('dragover', function(e) {
+            var dt = e.originalEvent.dataTransfer;
+            if(dt.types != null && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('application/x-moz-file'))) {
+                $("#dropnoti").show();
+                window.clearTimeout(dragTimer);
+            }
+        });
+        $('#canvas').on('dragleave', function(e) {
+            dragTimer = window.setTimeout(function() {
+                $("#dropnoti").hide();
+            }, 25);
+        });
+        // $("#floating-zone-right").fileReaderJS(fileReaderOptsRight);
+
         // Disabling autoDiscover, otherwise Dropzone will try to attach twice.
         // Dropzone.autoDiscover = false;
         // var fileDropzone = new Dropzone("div#dropzone-x", {url: "/file/post"});

@@ -21,6 +21,16 @@ html, body {
     width: 100vw;
     background-color: black;
     z-index: 1;
+    position: absolute;
+    transition: background-color 0.5s;
+}
+
+
+#canvas.xdrag {
+    /*background-color: rgba(255, 255, 255, 1);*/
+    /*border-top: 2px solid #0EBFE9;*/
+    background-color: #323232;
+    /*color: #0087F7;*/
 }
 
 /* the real canvas */
@@ -28,6 +38,21 @@ canvas {
     z-index: 2;
     position: absolute;
     top: 0;
+}
+
+#dropnoti {
+    position: absolute;
+    z-index: 99;
+    width: 100%; 
+    height: 100px;
+    bottom: 0;
+    text-align: center;
+    line-height: 100px;
+}
+
+#dropnoti .md-button {
+    background-color: rgb(16,108,200);
+    color: rgba(255,255,255,0.87);
 }
 
 
@@ -91,10 +116,31 @@ div.md-tile-left {
     text-align: center;
 }
 
+#floating-zone-right {
+    position: absolute;
+    z-index: 98;
+    top: 100px;
+    bottom: 100px;
+    left: 100px;
+    right: 100px;
+    width: 100%;
+    height: 100vh;
+    /*pointer-events:none;*/
+}
+
+#floating-zone-right.xdrag {
+    /*background-color: rgba(255, 255, 255, 1);*/
+    border: 2px dashed #0EBFE9;
+    color: #0087F7;
+
+}
+
 
 #dropzone-x {
-    height: 10vh;
-    width: 15vw;
+    /*height: 10vh;*/
+    /*width: 15vw;*/
+    height: 50px;
+    width: 150px;
     border: 2px dashed #0087F7;
     color: black;
     padding: 5px;
@@ -114,7 +160,7 @@ div.md-tile-left {
 }
 
 #loading-bar {
-    height: 2px;
+    height: 4px;
 }
 
 md-progress-linear#loading-bar .md-container {
