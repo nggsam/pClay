@@ -1,14 +1,14 @@
 # pClay
 pClay app to extract and present surface of proteins and do CSG operations anaylysis.
 
-# Version: 0.2.0
-# Changelog:
+## Changelogs:
+#### Version: 0.2.0
 * Drag and drop function
 * SURF and PDB renderer
 * Better color scheme
 * Add intro
 
-# TODO:
+## TODO:
 * Integrate Surfgen
 * Integrate VASP functions
 * Better separation between SURF and PDB files
