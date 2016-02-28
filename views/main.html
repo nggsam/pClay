@@ -1,0 +1,31 @@
+<div class="content"> <md-progress-linear md-mode="indeterminate" id="loading-bar" ng-show="loadingBarVisible"></md-progress-linear> <!-- WHOLE CANVAS --> <div id="canvas"> <!-- DROPZONE RIGHT --> <!-- <div id="floating-zone-right"> --> <!-- <div id="dropzone-right" class=""> --> <!--  --> <!-- </div> --> <!-- </div> --> <section class="cd-intro"> <h1 class="cd-headline slide"> <span>Drop</span> <span class="cd-words-wrapper"> <b class="is-visible">pdb</b> <b>surf</b> </span> <br> <span>files to render</span> </h1> </section> <!-- cd-intro --> <div id="dropnoti" class=""> <div> <md-button class="md-raised">Drop file to render</md-button> </div> </div> <!-- FLOATING ZONE --> <div id="floating-zone"> <div class="floating" layout="column" layout-align="center center"> <!-- <div flex layout="row" layout-align="center center" layout-margin>
+                    <md-input-container flex="50">
+                        <input ng-model="input.name">
+                        <label>ID</label>
+                    </md-input-container>
+                    <md-button class="md-raised md-primary" flex ng-click="fetchPdb(input.name)">PDB</md-button>
+                    <md-button class="md-raised md-primary md-hue-1" flex ng-click="fetchSurf(input.name)">SURF</md-button>
+                </div>
+
+                <div flex layout="row" layout-align="center center" layout-margin>
+
+                </div>
+ --> <!-- <input type="file" id="file-input" name="file-input" multiple /> --> <!-- <div id="dropzone-x" class="">
+                    <span>Drop SURF files here</span>
+                </div>
+ --> </div> <!-- <div class="floating f-list" flex layout-align="center center" layout-margin>
+                <md-list>
+                    <md-item class="f-item" ng-repeat="pdb in pdbList">
+                        <md-item-content class="f-item-content">
+                            <div class="md-tile-left">
+                               <md-button data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}" class="md-fab" ng-class="pdb.class" ng-click="pdbToggle(pdb)">
+                                    {{pdb.id}}
+                                </md-button>
+                                
+                            </div>
+                            <div class="md-tile-content">
+                            </div>
+                        </md-item-content>
+                    </md-item>
+                </md-list>
+            </div> --> <div ng-show="surfListVisible" class="floating f-list sub" flex layout-align="center center" layout-margin> <span> surf: </span> <md-list> <md-item class="f-item" ng-repeat="surf in surfList"> <md-item-content class="f-item-content"> <div class="md-tile-left"> <md-button class="md-raised btn1" ng-class="surf.class" ng-style="surf.style" ng-click="surfToggle(surf)"> {{surf.id}} <!--                                    <md-icon md-svg-src="img/icons/android.svg"></md-icon>--> </md-button> </div> <div class="md-tile-content"> <!--                                <h3>{{pdb.id}}</h3>--> <!--                                <h4>{{pdb.who}}</h4>--> </div> </md-item-content> </md-item> </md-list> </div> <div ng-show="pdbListVisible" class="floating f-list sub" flex layout-align="center center" layout-margin> <span> pdb: </span> <md-list> <md-item class="f-item" ng-repeat="pdb in pdbList"> <md-item-content class="f-item-content"> <div class="md-tile-left"> <md-button class="md-raised btn1" ng-class="pdb.class" ng-style="pdb.style" ng-click="pdbToggle(pdb)"> {{pdb.id}} <!--                                    <md-icon md-svg-src="img/icons/android.svg"></md-icon>--> </md-button> </div> <div class="md-tile-content"> <!--                                <h3>{{pdb.id}}</h3>--> <!--                                <h4>{{pdb.who}}</h4>--> </div> </md-item-content> </md-item> </md-list> </div> </div> </div> </div> 
