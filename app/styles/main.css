@@ -83,11 +83,8 @@ canvas {
 #floating-zone .floating.sub {
     background-color: rgba(255, 255, 255, 0);
     margin: 3px 0px 0px 10px;
-
-    > button {
-        color: white;
-    }
 }
+
 #floating-zone .floating.sub:hover {
     background-color: rgba(255, 255, 255, 0);
 }
