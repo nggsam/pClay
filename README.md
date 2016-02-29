@@ -10,6 +10,10 @@ pClay app to extract and present surface of proteins and do CSG operations anayl
 
 ## TODOs:
 * Transparency
+* White background
+* Logos
+* More PDB modes
+* Option to change colors
 * Delete function
 * Integrate Surfgen
 * Integrate VASP functions
