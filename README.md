@@ -22,7 +22,7 @@ pClay app to extract and present surface of proteins and do CSG operations anayl
 ## HOW TO SET UP DEV:
 ### Install NodeJS:
 * Linux: I recommend NVM: https://github.com/creationix/nvm
-* Windows: 
+* Windows: https://nodejs.org 
 * After this step, you should have `npm` in your terminal. Try to type `npm` and see if there's anything on the screen
 
 ### Install web utilities: go to the top directory (./pClay/)
