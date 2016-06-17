@@ -26,7 +26,7 @@ pClay app to extract and present surface of proteins and do CSG operations anayl
 * After this step, you should have `npm` in your terminal. Try to type `npm` and see if there's anything on the screen
 
 ### Install web utilities: go to the top directory (./pClay/)
-* grunt: `npm install -g grunt-cli` (g stand for global)
+* grunt: `npm install -g grunt-cli` (g stands for global)
 * bower: `npm install -g bower`
 * dev dependencies: `npm install --dev`
 * node dependencies: `npm install`
