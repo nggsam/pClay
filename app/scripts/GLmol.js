@@ -159,6 +159,7 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
         this.rebuildScene(id);
     };
     GLmol.prototype.addPDBRaw = function (id, rawData, color) {
+        console.trace();
         var data = this.parsePDBToStructure(rawData);
         this.addPDB(id, data, color);
     };
@@ -299,6 +300,7 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
 
     // PDB file parse
     GLmol.prototype.parsePDBToStructure = function(str) {
+
         console.log('PARSEDB@');
         var atoms = [];
         var protein = {sheet: [], helix: [], biomtChains: '', biomtMatrices: [], symMat: [], pdbID: '', title: ''};
@@ -340,6 +342,7 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
             } else if (recordName == 'CONECT') {
     // MEMO: We don't have to parse SSBOND, LINK because both are also
     // described in CONECT. But what about 2JYT???
+
                 var from = parseInt(line.substr(6, 5));
                 for (var j = 0; j < 4; j++) {
                     var to = parseInt(line.substr([11, 16, 21, 26][j], 5));
@@ -471,32 +474,53 @@ GLmol.prototype.setupLights = function(scene) {
    var ambientLight = new THREE.AmbientLight(0x202020);
    scene.add(ambientLight);
 };
-    /* Toggle visibility of a pdb object */
-    GLmol.prototype.pdbToggle = function (id) {
+
+
+/* Toggle visibility of a pdb object */
+GLmol.prototype.pdbToggle = function (id) {
 //        console.log(this.modelGroup);
-        var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
-        // Toggle visible of group
-        currentPDB.visible = !currentPDB.visible;
-        // Toggle visible of children
-        currentPDB.children.forEach(function (child) {
-            console.log(child);
-            child.visible = !child.visible;
-        })
-        this.show();
+    var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
+    // Toggle visible of group
+    currentPDB.visible = !currentPDB.visible;
+    // Toggle visible of children
+    currentPDB.children.forEach(function (child) {
+        console.log(child);
+        child.visible = !child.visible;
+    })
+    this.show();
+}
+/* Toggle visibility of a surf object */
+GLmol.prototype.surfToggle = function (id) {
+    //console.log(this.surfGroup);
+    var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
+    // Toggle visible of group
+    currentSURF.visible = !currentSURF.visible;
+    // Toggle visible of children
+    currentSURF.children.forEach(function (child) {
+        console.log(child);
+        child.visible = !child.visible;
+    });
+    this.show();
+}
+GLmol.prototype.togglePdbOpacity = function(id){
+  console.log("In toggle pdb opacity ");
+  var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
+  // console.log(currentPDB);
+  currentPDB.children.forEach(function(child){
+    if(child.material.opacity == 1){
+      child.material.opacity = 0.5;  
     }
-    /* Toggle visibility of a surf object */
-    GLmol.prototype.surfToggle = function (id) {
-        console.log(this.surfGroup);
-        var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
-        // Toggle visible of group
-        currentSURF.visible = !currentSURF.visible;
-        // Toggle visible of children
-        currentSURF.children.forEach(function (child) {
-            console.log(child);
-            child.visible = !child.visible;
-        })
-        this.show();
+    else {
+      child.material.opacity = 1.0;
     }
+  });
+  this.show();
+}
+GLmol.prototype.toggleSurfOpacity = function(id){
+  var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
+}
+
+
 GLmol.prototype.parseSDF = function(str) {
    var atoms = this.atoms;
    var protein = this.protein;
@@ -1233,6 +1257,7 @@ GLmol.prototype.drawCylinder = function(group, from, to, radius, color, cap) {
 
 // FIXME: transition!
 GLmol.prototype.drawHelixAsCylinder = function(group, atomlist, radius) {
+  console.log("drawHelixAsCylinder");
    var start = null;
    var currentChain, currentResi;
 
@@ -1259,10 +1284,12 @@ GLmol.prototype.drawHelixAsCylinder = function(group, atomlist, radius) {
 };
 
 GLmol.prototype.drawCartoon = function(group, id, atomlist, doNotSmoothen, thickness) {
+  console.log("drawCartoon");
    this.drawStrand(group, id, atomlist, 2, undefined, true, undefined, undefined, doNotSmoothen, thickness);
 };
 
 GLmol.prototype.drawStrand = function(group, id, atomlist, num, div, fill, coilWidth, helixSheetWidth, doNotSmoothen, thickness) {
+  console.log("drawStrand");
    num = num || this.strandDIV;
    div = div || this.axisDIV;
    coilWidth = coilWidth || this.coilWidth;
@@ -1869,6 +1896,7 @@ GLmol.prototype.drawSymmetryMatesWithTranslation2 = function(group, asu, matrice
     };
 
 GLmol.prototype.defineRepresentation = function(id) {
+  console.log("hello from defineRepresentation!!!");
     var all = this.getAllAtoms(id);
     var hetatm = this.removeSolvents(this.getHetatms(all, id), id);
 
@@ -1878,6 +1906,7 @@ GLmol.prototype.defineRepresentation = function(id) {
     this.colorMono(all, id); // TODO: Modify this
 
     var asu = new THREE.Object3D({transparent: true, opacity: 0.5});
+
 
     this.drawAtomsAsSphere(asu, id, hetatm, this.sphereRadius);
     this.drawCartoon(asu, id, all, false, this.thickness, id);
@@ -1960,7 +1989,7 @@ GLmol.prototype.zoomInto = function(atomlist, keepSlab) {
       this.slabFar = maxD / 3;
    }
 
-   this.rotationGroup.position.z = maxD * 0.35 / Math.tan(Math.PI / 180.0 * this.camera.fov / 2) - 150;
+   this.rotationGroup.position.z = maxD * 0.35 / Math.tan(Math.PI /180.0 * this.camera.fov / 2) - 150;
    this.rotationGroup.quaternion = new THREE.Quaternion(1, 0, 0, 0);
 };
 

@@ -194,8 +194,6 @@ angular.module('pclayApp')
             $scope.hideLoadingBar();
         };
 
-
-
         //toggle pdb object visibility
         $scope.pdbToggleGL = function (id) {
             $scope.glmol.pdbToggle(id);
@@ -203,11 +201,13 @@ angular.module('pclayApp')
         $scope.pdbToggle = function (p) {
             $scope.pdbToggleGL(p.id);
             if (p.toggled) {
+                console.log("hello from the if");
                 p.toggled = false;
                 p.style.bg = p.style['background-color'];
                 p.style['background-color'] = 'white';
 
             } else {
+                console.log("hello from the else");
                 p.toggled = true;
                 p.style['background-color'] = p.style.bg;
             }
@@ -228,7 +228,27 @@ angular.module('pclayApp')
                 s.style['background-color'] = s.style.bg;
             }
         };
-    
+        // NEW EDITS
+        $scope.togglePdbOpacity = function (pdb) {
+            $scope.glmol.togglePdbOpacity(pdb.id);
+            if(pdb.toggled){
+                pdb.toggled = false;
+            }
+            else {
+                pdb.toggled = true;
+            }
+        }
+
+        $scope.toggleSurfOpacity = function (surf) {
+            //$scope.glmol.toggleSurfOpacity(surf.id);
+            if(surf.toggled){
+                surf.toggled = false;
+            }
+            else {
+                surf.toggled = true;
+            }
+        }
+        // NEW EDITS END
         $scope.findDuplicate = function(id, array) {
             for (var i = 0; i < array.length; i++) {
                 console.log(array[i]);
@@ -279,11 +299,12 @@ angular.module('pclayApp')
         // 
         // Test DropZone
         var fileReaderOpts = {
+
             readAsDefault: 'Text',
             dragClass: "xdrag",
             on: {
                 beforestart: function(file) {
-                    
+                    console.log("in fileReaderOpts: beforestart");    
                     $scope.hideDropNoti();
 
                     $scope.showLoadingBar();
@@ -301,12 +322,14 @@ angular.module('pclayApp')
                 },
 
               load: function(e, file) {
+                console.log("in fileReaderOpts: load");
                 // console.log(e);
                 // console.log(e.target.result);
                 // console.log(file);
               },
 
               loadend: function(e, file) {
+                console.log("in fileReaderOpts: loadend");
                 // console.log(e);
                 // console.log(e.target.result);
                 // console.log(file);
