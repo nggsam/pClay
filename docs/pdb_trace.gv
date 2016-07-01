@@ -1,0 +1,56 @@
+// Loading and rendering a PDB file
+digraph {
+	A [label=fileReaderJS]
+	B [label=renderPdb]
+	C [label=renderPdbRaw]
+	D [label=parsePDBToStructure]
+	E [label=addPdb]
+	F [label=rebuildScene]
+	G [label=getView]
+	H [label=defineRepresentation]
+	I [label=setView]
+	J [label=getAllAtoms]
+	K [label=removeSolvents]
+	L [label=getHetAtm]
+	M [label=colorByAtom]
+	N [label=colorMono]
+	O [label=setHSV]
+	P [label=getHex]
+	Q [label=drawAtomAsSphere]
+	R [label=drawCartoon]
+	S [label=drawStrand]
+	T [label=drawSmoothCurve]
+	U [label=drawStrip]
+	V [label=drawThinStrip]
+	W [label=drawCartoonNucleinAcid]
+	X [label=drawStrandNucleicAcid]
+	Y [label=pivotCentroid]
+	Z [label=show]
+		A -> B
+		B -> C
+		C -> D
+		C -> E
+		E -> F
+		F -> G
+		F -> H
+		F -> I
+		H -> J
+		H -> K
+		H -> L
+		H -> M
+		H -> N
+		N -> O
+		N -> P
+		H -> Q
+		H -> R
+		H -> W
+		H -> Y
+		H -> Z
+		R -> S
+		S -> T
+		S -> U
+		U -> V
+		W -> X
+		X -> U
+		X -> T
+}
