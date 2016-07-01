@@ -95,13 +95,9 @@
                         <md-item-content class="f-item-content">
                             <div class="md-tile-left">
                                 
-                                <md-button class="md-raised btn1" ng-class="pdb.class" ng-style="pdb.style" ng-click="pdbToggle(pdb)">
+                                <md-button class="md-raised btn1" ng-class="pdb.class" ng-style="pdb.style" ng-click="cyclePdbOpacity(pdb)">
                                     {{pdb.id}}
                                 </md-button>
-                                
-                                <md-checkbox ng-model="isChecked" ng-class="pdb.class" aria-label="Opacity" ng-click="togglePdbOpacity(pdb)">
-                                  Opacity
-                                </md-checkbox>
 
                             </div>
                             <div class="md-tile-content">

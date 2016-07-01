@@ -502,6 +502,8 @@ GLmol.prototype.surfToggle = function (id) {
     });
     this.show();
 }
+
+// NEW EDITS
 GLmol.prototype.togglePdbOpacity = function(id){
   console.log("In toggle pdb opacity ");
   var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
@@ -520,6 +522,26 @@ GLmol.prototype.toggleSurfOpacity = function(id){
   var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
 }
 
+GLmol.prototype.cyclePdbOpacity = function(id){
+  console.log("In toggle pdb opacity ");
+  var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
+  // console.log(currentPDB);
+  currentPDB.children.forEach(function(child){
+    if(child.material.opacity !== 0){
+      child.material.opacity -= 0.25;  
+    }
+    else {
+      child.material.opacity = 1.0;
+    }
+  });
+  this.show();
+}
+GLmol.prototype.cycleSurfOpacity = function(id){
+  var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
+  this.show();
+}
+
+// NEW EDITS
 
 GLmol.prototype.parseSDF = function(str) {
    var atoms = this.atoms;

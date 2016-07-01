@@ -240,7 +240,7 @@ angular.module('pclayApp')
         }
 
         $scope.toggleSurfOpacity = function (surf) {
-            //$scope.glmol.toggleSurfOpacity(surf.id);
+            $scope.glmol.toggleSurfOpacity(surf.id);
             if(surf.toggled){
                 surf.toggled = false;
             }
@@ -248,6 +248,27 @@ angular.module('pclayApp')
                 surf.toggled = true;
             }
         }
+
+        $scope.cyclePdbOpacity = function (pdb) {
+            $scope.glmol.cyclePdbOpacity(pdb.id);
+            if(pdb.toggled){
+                pdb.toggled = false;
+            }
+            else {
+                pdb.toggled = true;
+            }
+        }
+
+        $scope.cycleSurfOpacity = function (surf) {
+            $scope.glmol.cycleSurfOpacity(surf.id);
+            if(surf.toggled){
+                surf.toggled = false;
+            }
+            else {
+                surf.toggled = true;
+            }
+        }
+
         // NEW EDITS END
         $scope.findDuplicate = function(id, array) {
             for (var i = 0; i < array.length; i++) {
