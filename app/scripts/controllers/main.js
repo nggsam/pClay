@@ -269,6 +269,18 @@ angular.module('pclayApp')
             }
         }
 
+        $scope.removePdb = function(listPdb, index) {
+            $scope.glmol.removePdb(index.id);
+            // console.log($scope.pdbList);
+            listPdb.splice(index, 1)
+            // console.log($scope.pdbList);
+
+            if( $scope.pdbList.length == 0 && $scope.surfList.length == 0 ){
+                $scope.showAnimatedIntro();
+                $scope.pdbListVisible = false;
+
+            }
+        }
         // NEW EDITS END
         $scope.findDuplicate = function(id, array) {
             for (var i = 0; i < array.length; i++) {
@@ -291,6 +303,10 @@ angular.module('pclayApp')
                 $scope.loadingBarVisible = false;
             })
         };
+
+        $scope.showAnimatedIntro = function() {
+            $(".cd-intro").fadeIn();
+        }
 
         $scope.hideAnimatedIntro = function() {
             $(".cd-intro").fadeOut();

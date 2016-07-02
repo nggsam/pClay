@@ -24,7 +24,7 @@ angular
         appName: 'pClay',
         server: 'http://localhost:8000/'
     })
-    .config(function ($routeProvider, $mdThemingProvider) {
+    .config(function ($routeProvider, $mdThemingProvider, $mdIconProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
@@ -63,4 +63,7 @@ angular
         $mdThemingProvider.theme('default')
             .primaryPalette('amber')
             .accentPalette('grey');
+
+        $mdIconProvider.defaultIconSet('/mdi.svg');
     });
+    

@@ -149,6 +149,7 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
     /* =============================================================== */
     /* START OF MODIFIED */
     GLmol.prototype.addPDB = function (id, data) {
+      console.log("IN ADDPDB!!!");
         if(!this.mainCentroid) { // If main centroid has not been set
             this.mainCentroid = data.centroid;
         } //
@@ -503,7 +504,10 @@ GLmol.prototype.surfToggle = function (id) {
     this.show();
 }
 
-// NEW EDITS
+// NEW EDITS BEGIN
+// NEW EDITS BEGIN
+// NEW EDITS BEGIN
+
 GLmol.prototype.togglePdbOpacity = function(id){
   console.log("In toggle pdb opacity ");
   var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
@@ -541,7 +545,38 @@ GLmol.prototype.cycleSurfOpacity = function(id){
   this.show();
 }
 
-// NEW EDITS
+GLmol.prototype.removePdb = function(id){
+  console.log("Deleting protein: " + id);
+  
+  console.log(this);
+  this.modelGroup.remove(id);
+  delete this.proteins[id];
+  if(Object.keys(this.proteins).length != 0){
+    this.protein = Object.keys(this.proteins)[0];
+  }
+  else this.protein = undefined;
+  delete this.atoms[id];
+  delete this.centroids[id];
+  
+        
+  if(Object.keys(this.proteins).length != 0){
+    console.log("[removePDB] rebuilding with protein " + Object.keys(this.proteins)[0])
+    // this.rebuildScene(Object.keys(this.proteins)[0]);
+    
+    this.modelGroup.updateMatrix();
+    this.modelGroup.updateMatrixWorld();
+  }
+  else {
+    this.init();
+  }
+  this.show();
+  this.show();
+  
+}
+
+// NEW EDITS END
+// NEW EDITS END
+// NEW EDITS END
 
 GLmol.prototype.parseSDF = function(str) {
    var atoms = this.atoms;

@@ -3006,6 +3006,8 @@ THREE.Object3D.prototype = {
         this.rotationAutoUpdate && this.rotation.getRotationFromMatrix(this.matrix)
     },
     add: function(a) {
+        console.log("Adding the following thingy:");
+        console.trace();
         if (a === this) console.warn("THREE.Object3D.add: An object can't be added as a child of itself.");
         else if (a instanceof THREE.Object3D) {
             a.parent !== void 0 && a.parent.remove(a);

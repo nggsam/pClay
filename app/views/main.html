@@ -98,6 +98,10 @@
                                 <md-button class="md-raised btn1" ng-class="pdb.class" ng-style="pdb.style" ng-click="cyclePdbOpacity(pdb)">
                                     {{pdb.id}}
                                 </md-button>
+                                
+                                <md-button aria-label="Close" class="md-icon-button md-raised" ng-click="removePdb(pdbList, pdb)">
+                                    <md-icon md-svg-icon="close"></md-icon>
+                                </md-button>
 
                             </div>
                             <div class="md-tile-content">
