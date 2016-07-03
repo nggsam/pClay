@@ -525,13 +525,30 @@ GLmol.prototype.togglePdbOpacity = function(id){
 GLmol.prototype.cyclePdbOpacity = function(id){
   console.log("In cycle pdb opacity ");
   var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
-  // console.log(currentPDB);
+  
   currentPDB.children.forEach(function(child){
-    if(child.material.opacity !== 0){
+    console.log("Opacity: " + child.material.opacity);
+    if(child.material.opacity === 0.25){
+      child.material.opacity -= 0.25;
+      currentPDB.visible = !currentPDB.visible;
+      // Toggle visible of children
+      currentPDB.children.forEach(function (child) {
+          
+          child.visible = !child.visible;
+      })
+    }
+    else if(child.material.opacity !== 0){
       child.material.opacity -= 0.25;  
     }
     else {
-      child.material.opacity = 1.0;
+      child.material.opacity -= 0.25;  
+      currentPDB.visible = !currentPDB.visible;
+      // Toggle visible of children
+      currentPDB.children.forEach(function (child) {
+          
+          child.visible = !child.visible;
+      })
+      child.material.opacity = 1;  
     }
   });
   this.show();
@@ -550,12 +567,12 @@ GLmol.prototype.cycleSurfOpacity = function(id){
 GLmol.prototype.removePdb = function(id){
   console.log("Deleting protein: " + id);
 
-  console.log("Before deleting the protein:");
+  // console.log("Before deleting the protein:");
   // Object.keys(this.proteins).forEach(function(data){console.log(data);});
   // Object.keys(this.atoms).forEach(function(data){console.log(data);});
   // Object.keys(this.centroids).forEach(function(data){console.log(data);});
   // console.log(this.protein);
-  Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
+  // Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
 
   delete this.proteins[id];
   this.protein = null;
@@ -563,17 +580,17 @@ GLmol.prototype.removePdb = function(id){
   delete this.centroids[id];
 
   var protein = this.modelGroup.getChildByName(id);
-  console.log(protein);
+  // console.log(protein);
   this.modelGroup.remove(protein);
 
 
 
-  console.log("After deleting the protein");
+  // console.log("After deleting the protein");
   // Object.keys(this.proteins).forEach(function(data){console.log(data);});
   // Object.keys(this.atoms).forEach(function(data){console.log(data);});
   // Object.keys(this.centroids).forEach(function(data){console.log(data);});
   // console.log(this.protein);
-  Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
+  // Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
   this.show();
 }
 
