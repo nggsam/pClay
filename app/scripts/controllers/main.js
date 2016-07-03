@@ -269,17 +269,27 @@ angular.module('pclayApp')
             }
         }
 
-        $scope.removePdb = function(listPdb, index) {
-            $scope.glmol.removePdb(index.id);
-            // console.log($scope.pdbList);
-            listPdb.splice(index, 1)
+        $scope.removePdb = function(listPdb, pdb) {
+            
+            // console.log("Printing pdbList:");
+            // listPdb.forEach(function(data){console.log(data);});
+            
+            $scope.glmol.removePdb(pdb.id);
+            
+            var index = listPdb.indexOf(pdb);
+            console.log("[main.js][removePdb] removing pdb with index " + index + " from pdbList");
+            listPdb.splice(index, 1);
+            
+            // console.log($scope);
+
+            
             // console.log($scope.pdbList);
 
             if( $scope.pdbList.length == 0 && $scope.surfList.length == 0 ){
                 $scope.showAnimatedIntro();
                 $scope.pdbListVisible = false;
-
             }
+            // console.log($scope);
         }
         // NEW EDITS END
         $scope.findDuplicate = function(id, array) {
