@@ -25,7 +25,7 @@ html, body {
     background-color: black;
     z-index: 1;
     position: absolute;
-    transition: background-color 0.5s;
+    transition: background-color 2s;
 }
 
 
@@ -374,10 +374,15 @@ md-list {
 }
 
 
+.toggleWhiteBackground {
+  background-color: white;
+  transition: background-color 2s;
+}
 
-
-
-
+.toggleBlackBackground {
+  background-color: black;
+  transition: background-color 2s;
+}
 
 
 
