@@ -597,6 +597,29 @@ GLmol.prototype.removePdb = function(id){
   this.show();
 }
 
+GLmol.prototype.changePdbColor = function(id, color){
+  console.log("[GLmol][changePdbColor] beginning of function");
+  var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
+  currentPDB.children.forEach(function(child){
+    if      ( color.search('#') >= 0 ) {
+      console.log("[GLmol][changePdbColor] setting material color from hex color");
+      child.material.color.setHex(color);
+    }
+    else if ( color.search('rgb') >= 0 ) {
+      console.log("[GLmol][changePdbColor] setting material color from rgb color");
+      console.log(color);
+      // child.material.color.setRGB();
+    }
+    else if ( color.search('hsl') >= 0 ) {
+      console.log("[GLmol][changePdbColor] setting material color from hsv color");
+      console.log(color);
+      // child.material.color.setHSV();
+    }
+    // child.material.color.
+  });
+  this.show();
+  this.show();
+}
 
 // NEW EDITS END
 // NEW EDITS END

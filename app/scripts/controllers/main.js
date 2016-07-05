@@ -270,12 +270,17 @@ angular.module('pclayApp')
         }
 
         // this is the place for the color picker
+        $scope.colorSelected = "#FFFFFF"
         $scope.selected = 'None';
         $scope.surfaceOptions = [
             ['Change color', function ($itemScope) {
-                var result = undefined;
-                $mdColorPicker.show().then(function(color, string ) {
-                    result = color;
+                $mdColorPicker.show({
+                    value:$scope.colorSelected
+                }).then(function(color) {
+                    // console.log(color);
+                    // console.log($itemScope);
+                    $itemScope.pdb.style["background-color"] = color;
+                    $scope.glmol.changePdbColor($itemScope.pdb.id, color);
                 });
             }]
             // null, // Dividier
@@ -393,6 +398,7 @@ angular.module('pclayApp')
 
               loadend: function(e, file) {
                 console.log("in fileReaderOpts: loadend");
+                console.log($scope);
                 // console.log(e);
                 // console.log(e.target.result);
                 // console.log(file);
