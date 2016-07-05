@@ -15,6 +15,8 @@ angular
     'ngCookies',
     'ngMessages',
     //'ngResource',
+    'ui.bootstrap.contextMenu',
+    'mdColorPicker',
     'ngRoute',
     'ngSanitize',
     'ngTouch',
@@ -66,4 +68,4 @@ angular
 
         $mdIconProvider.defaultIconSet('/mdi.svg');
     });
-    
+

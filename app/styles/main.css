@@ -373,44 +373,12 @@ md-list {
   }
 }
 
-
 .toggleWhiteBackground {
   background-color: white;
-  transition: background-color 2s;
+  transition: background-color 2s ease-in-out;
 }
 
 .toggleBlackBackground {
   background-color: black;
-  transition: background-color 2s;
+  transition: background-color 2s ease-in-out;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

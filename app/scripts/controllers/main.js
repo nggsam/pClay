@@ -8,7 +8,7 @@
  * Controller of the pclayApp
  */
 angular.module('pclayApp')
-    .controller('MainCtrl', function ($scope, $http, config, AnimateIntro) {
+    .controller('MainCtrl', function ($scope, $http, config, AnimateIntro, $mdColorPicker) {
 
         $scope.loadingBarVisible = false;
         
@@ -269,6 +269,22 @@ angular.module('pclayApp')
             }
         }
 
+        // this is the place for the color picker
+        $scope.selected = 'None';
+        $scope.surfaceOptions = [
+            ['Change color', function ($itemScope) {
+                var result = undefined;
+                $mdColorPicker.show().then(function(color, string ) {
+                    result = color;
+                });
+            }]
+            // null, // Dividier
+            // ['Remove', function ($itemScope) {
+            //     $scope.items.splice($itemScope.$index, 1);
+            // }]
+        ];
+
+
         $scope.removePdb = function(listPdb, pdb) {
             
             // console.log("Printing pdbList:");
@@ -450,7 +466,6 @@ angular.module('pclayApp').factory('AnimateIntro', function() {
     
     initHeadline();
     
-
     function initHeadline() {
         //insert <i> element for each letter of a changing word
         singleLetters($('.cd-headline.letters').find('b'));

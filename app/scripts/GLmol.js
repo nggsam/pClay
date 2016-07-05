@@ -583,7 +583,8 @@ GLmol.prototype.removePdb = function(id){
   // console.log(protein);
   this.modelGroup.remove(protein);
 
-
+  // fix the issue where when you remove an object, it doesn't reset the colors of the GLmol
+  this.currentColorH -= 60;
 
   // console.log("After deleting the protein");
   // Object.keys(this.proteins).forEach(function(data){console.log(data);});
@@ -591,6 +592,8 @@ GLmol.prototype.removePdb = function(id){
   // Object.keys(this.centroids).forEach(function(data){console.log(data);});
   // console.log(this.protein);
   // Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
+  
+  this.show();
   this.show();
 }
 
@@ -1902,9 +1905,11 @@ GLmol.prototype.colorChainbow = function(atomlist, id, colorSidechains) {
 
     GLmol.prototype.colorMono = function(atomlist, id, colorSidechains) {
         if(!this.hasOwnProperty('currentColorH')) {
+          console.log("[GLmol][colorMono] setting the currentColorH value to 0");
             this.currentColorH = 0;
         }
         else {
+          console.log("[GLmol][colorMono] increasing currentColorH's value by 60");
             this.currentColorH += 60;
         }
         var atom, i;
