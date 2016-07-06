@@ -608,11 +608,13 @@ GLmol.prototype.changePdbColor = function(id, color){
     else if ( color.search('rgb') >= 0 ) {
       console.log("[GLmol][changePdbColor] setting material color from rgb color");
       var colorValues =color.substring(color.lastIndexOf("(")+1,color.lastIndexOf(")")).split(",");
-      child.material.color.r = parseInt(colorValues[0]);
-      child.material.color.g = parseInt(colorValues[1]);
-      child.material.color.b = parseInt(colorValues[2]);
+      var r = parseInt(colorValues[0]);
+      var g = parseInt(colorValues[1]);
+      var b = parseInt(colorValues[2]);
       // console.log("New color is:" + r + " " + g + " " + b);
-      // child.material.color.setRGB();
+
+      child.material.color = child.material.color.setRGB(r, g, b);
+      console.log(child.material.color);
     }
     else if ( color.search('hsl') >= 0 ) {
       console.log("[GLmol][changePdbColor] setting material color from hsv color");
