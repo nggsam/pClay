@@ -39,5 +39,9 @@ pClay app to extract and present surface of proteins and do CSG operations anayl
 * Spin off dev server: `grunt serve`. You should see pClay in your browser now. Try to edit files and the server should restart to show new changes.
 * There're more commands to `grunt`. Take a look at Gruntfile.js to get a better understanding of the whole serving process (it might not be too helpful though). Or look up `grunt` tutorials to learn more about it.
 
+### How to distribute 
+* Try `grunt build` in the terminal. This creates a compact version of the application.
+* Use `grunt build --force` if it does not work.
+
 ### Stack:
 pClay is built with Angular 1.3 so a getting to know Angular is important. There're some really good tutorial courses online: I recommend *codeschool* and *egghead*. 
