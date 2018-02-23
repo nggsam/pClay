@@ -25,6 +25,7 @@ angular
     .constant('config', {
         appName: 'pClay',
         server: 'http://localhost:8000/'
+        // server: 'http://www.cse.lehigh.edu/~bzc220/'
     })
     .config(function ($routeProvider, $mdThemingProvider, $mdIconProvider) {
         $routeProvider
