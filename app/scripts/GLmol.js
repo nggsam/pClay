@@ -151,8 +151,10 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
     GLmol.prototype.addPDB = function (id, data) {
       console.log("IN ADDPDB!!!");
         if(!this.mainCentroid) { // If main centroid has not been set
+          console.log("SET CENTROID");
             this.mainCentroid = data.centroid;
         } //
+        console.log("main centroid is set. continue.");
         this.proteins[id] = data.protein;
         this.protein = data.protein;
         this.atoms[id] = data.atoms;
@@ -194,6 +196,7 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
         mesh.position.set(-this.mainCentroid[0], -this.mainCentroid[1], -this.mainCentroid[2]);
         mesh.name = id;
         this.surfGroup.add(mesh);
+
         this.show();
         this.show();
         return mesh;
@@ -438,12 +441,13 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
           this.currentColorH = 0;
       }
       else {
-          this.currentColorH += 60;
+          this.currentColorH = (this.currentColorH + 60)%360;
       }
 
       var color = new TCo(0);
       color.setHSV(this.currentColorH / 360, 1, 1);
 
+      console.log(">>>>color:" + color);
       return ( '000000' + color.getHex().toString( 16 ) ).slice( - 6 );
     }
 
@@ -505,8 +509,6 @@ GLmol.prototype.surfToggle = function (id) {
 }
 
 // NEW EDITS BEGIN
-// NEW EDITS BEGIN
-// NEW EDITS BEGIN
 
 GLmol.prototype.togglePdbOpacity = function(id){
   console.log("In toggle pdb opacity ");
@@ -522,6 +524,7 @@ GLmol.prototype.togglePdbOpacity = function(id){
   });
   this.show();
 }
+
 GLmol.prototype.cyclePdbOpacity = function(id){
   console.log("In cycle pdb opacity ");
   var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
@@ -556,9 +559,69 @@ GLmol.prototype.cyclePdbOpacity = function(id){
 
 GLmol.prototype.toggleSurfOpacity = function(id){
   var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
+
+  //Bethany 
+  currentSURF.children.forEach(function(child){
+    console.log("Opacity: " + child.material.opacity);
+    if(child.material.opacity === 0.25){
+      child.material.opacity -= 0.25;
+      currentSURF.visible = !currentSURF.visible;
+      // Toggle visible of children
+      currentSURF.children.forEach(function (child) {
+          
+          child.visible = !child.visible;
+      })
+    }
+    else if(child.material.opacity !== 0){
+      child.material.opacity -= 0.25;  
+    }
+    else {
+      child.material.opacity -= 0.25;  
+      currentSURF.visible = !currentSURF.visible;
+      // Toggle visible of children
+      currentSURF.children.forEach(function (child) {
+          
+          child.visible = !child.visible;
+      })
+      child.material.opacity = 1;  
+    }
+  });
+  this.show();
+
+  //Bethany end
 }
 GLmol.prototype.cycleSurfOpacity = function(id){
   var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
+
+//Bethany 
+  currentSURF.children.forEach(function(child){
+    console.log("Opacity: " + child.material.opacity);
+    if(child.material.opacity === 0.25){
+      child.material.opacity -= 0.25;
+      currentSURF.visible = !currentSURF.visible;
+      // Toggle visible of children
+      currentSURF.children.forEach(function (child) {
+          
+          child.visible = !child.visible;
+      })
+    }
+    else if(child.material.opacity !== 0){
+      child.material.opacity -= 0.25;  
+    }
+    else {
+      child.material.opacity -= 0.25;  
+      currentSURF.visible = !currentSURF.visible;
+      // Toggle visible of children
+      currentSURF.children.forEach(function (child) {
+          
+          child.visible = !child.visible;
+      })
+      child.material.opacity = 1;  
+    }
+  });
+  
+//Bethany end
+
   this.show();
 }
 
@@ -567,13 +630,61 @@ GLmol.prototype.cycleSurfOpacity = function(id){
 GLmol.prototype.removePdb = function(id){
   console.log("Deleting protein: " + id);
 
-  // console.log("Before deleting the protein:");
-  // Object.keys(this.proteins).forEach(function(data){console.log(data);});
-  // Object.keys(this.atoms).forEach(function(data){console.log(data);});
-  // Object.keys(this.centroids).forEach(function(data){console.log(data);});
-  // console.log(this.protein);
-  // Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
+   console.log("Before deleting the protein:");
+   Object.keys(this.proteins).forEach(function(data){console.log(data);});
+   Object.keys(this.atoms).forEach(function(data){console.log(data);});
+   Object.keys(this.centroids).forEach(function(data){console.log(data);});
+   console.log(this.protein);
+   Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
 
+  delete this.proteins[id];
+  this.protein = null;
+  delete this.atoms[id];
+  delete this.centroids[id];
+
+  var protein = this.modelGroup.getChildByName(id);
+  // console.log(protein);
+  this.modelGroup.remove(protein);
+
+  // fix the issue where when you remove an object, it doesn't reset the colors of the GLmol
+  // this.currentColorH = (this.currentColorH + 0.16);
+  // if(currentColorH > 1){
+  //   currentColorH -= 1;
+  // }
+
+  //this.currentColorH-=60;
+  this.currentColorH = (this.currentColorH + 60)%360;
+
+  console.log("After deleting the protein");
+  Object.keys(this.proteins).forEach(function(data){console.log(data);});
+  Object.keys(this.atoms).forEach(function(data){console.log(data);});
+  Object.keys(this.centroids).forEach(function(data){console.log(data);});
+  console.log(this.protein);
+  Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
+  
+  this.show();
+  this.show();
+}
+
+//NEW EDIT -bzc220
+
+GLmol.prototype.removeSurf = function(id){
+  console.log("Deleting protein: " + id);
+
+  var protein = this.surfGroup.getChildByName(id);
+
+  this.surfGroup.remove(protein);
+  Object.keys(this.surfGroup.children).forEach(function(data){console.log(data);});
+
+
+  this.currentColorH = (this.currentColorH + 60)%360;
+/*
+   console.log("Before deleting the protein:");
+   Object.keys(this.proteins).forEach(function(data){console.log(data);});
+   Object.keys(this.atoms).forEach(function(data){console.log(data);});
+   Object.keys(this.centroids).forEach(function(data){console.log(data);});
+   console.log(this.protein);
+   Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
   delete this.proteins[id];
   this.protein = null;
   delete this.atoms[id];
@@ -586,13 +697,13 @@ GLmol.prototype.removePdb = function(id){
   // fix the issue where when you remove an object, it doesn't reset the colors of the GLmol
   this.currentColorH -= 60;
 
-  // console.log("After deleting the protein");
-  // Object.keys(this.proteins).forEach(function(data){console.log(data);});
-  // Object.keys(this.atoms).forEach(function(data){console.log(data);});
-  // Object.keys(this.centroids).forEach(function(data){console.log(data);});
-  // console.log(this.protein);
-  // Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
-  
+  console.log("After deleting the protein");
+  Object.keys(this.proteins).forEach(function(data){console.log(data);});
+  Object.keys(this.atoms).forEach(function(data){console.log(data);});
+  Object.keys(this.centroids).forEach(function(data){console.log(data);});
+  console.log(this.protein);
+  Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
+  */
   this.show();
   this.show();
 }
@@ -1940,7 +2051,7 @@ GLmol.prototype.colorChainbow = function(atomlist, id, colorSidechains) {
         }
         else {
           console.log("[GLmol][colorMono] increasing currentColorH's value by 60");
-            this.currentColorH += 60;
+            this.currentColorH = (this.currentColorH + 60)%360;
         }
         var atom, i;
         var atoms = this.atoms[id];

@@ -117,6 +117,7 @@ angular.module('pclayApp')
 
         /** Get surf with id and add to scene  */
         $scope.fetchSurf = function (id, color) {
+            console.log("Inside fetchSurf");
             if(!id) {
                 return
             }
@@ -303,7 +304,6 @@ angular.module('pclayApp')
             
             // console.log($scope);
 
-            
             // console.log($scope.pdbList);
 
             if( $scope.pdbList.length == 0 && $scope.surfList.length == 0 ){
@@ -312,6 +312,30 @@ angular.module('pclayApp')
             }
             // console.log($scope);
         }
+
+        //bzc220 edit
+        $scope.removeSurf = function(listSurf, surf) {
+            
+            // console.log("Printing surfList:");
+            // listSurf.forEach(function(data){console.log(data);});
+            
+            $scope.glmol.removeSurf(surf.id);
+            
+            var index = listSurf.indexOf(surf);
+            console.log("[main.js][removeSurf] removing surf with index " + index + " from surfList");
+            listSurf.splice(index, 1);
+            
+            // console.log($scope);
+            console.log("removeSurf in main.js")
+            console.log($scope.surfList);
+
+            if( $scope.pdbList.length == 0 && $scope.surfList.length == 0 ){
+                $scope.showAnimatedIntro();
+                $scope.surfListVisible = false;
+            }
+            // console.log($scope);
+        }
+
         // NEW EDITS END
         $scope.findDuplicate = function(id, array) {
             for (var i = 0; i < array.length; i++) {
@@ -359,7 +383,7 @@ angular.module('pclayApp')
             // pdb is handled differently as GLmol will give the color instead
             if(type === "pdb") {
                 return '0x' + $scope.glmol.getCurrentColor();
-            } else {
+            } else { 4
                 return '0x' + $scope.glmol.getNewColor();
             }
         }

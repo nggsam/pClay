@@ -16,7 +16,7 @@
     "angular-material": "master",
     "lodash": "~3.0.1",
     "jquery": "~2.1.3",
-    "ui.bootstrap.contextMenu": "1.1.0",
+    "ui.bootstrap.contextMenu": "1.6.9",
     "md-color-picker": "^0.2.6"
   },
   "devDependencies": {
