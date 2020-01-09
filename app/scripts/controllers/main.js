@@ -383,7 +383,7 @@ angular.module('pclayApp')
             // pdb is handled differently as GLmol will give the color instead
             if(type === "pdb") {
                 return '0x' + $scope.glmol.getCurrentColor();
-            } else { 4
+            } else { 
                 return '0x' + $scope.glmol.getNewColor();
             }
         }

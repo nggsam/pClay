@@ -25,6 +25,7 @@ THREE.ShaderLib.lambert.fragmentShader = THREE.ShaderLib.lambert.fragmentShader.
 THREE.ShaderLib.lambert.vertexShader = THREE.ShaderLib.lambert.vertexShader.replace(/\}$/, "#ifdef DOUBLE_SIDED\n if (transformedNormal.z < 0.0) vLightFront = vLightBack;\n #endif\n }");
 
 var TV3 = THREE.Vector3, TF3 = THREE.Face3, TCo = THREE.Color;
+var colorchanger = 65;
 
 THREE.Geometry.prototype.colorAll = function (color) {
    for (var i = 0; i < this.faces.length; i++) {
@@ -441,13 +442,13 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
           this.currentColorH = 0;
       }
       else {
-          this.currentColorH = (this.currentColorH + 60)%360;
+          this.currentColorH = (this.currentColorH + colorchanger)%360;
       }
 
       var color = new TCo(0);
       color.setHSV(this.currentColorH / 360, 1, 1);
 
-      console.log(">>>>color:" + color);
+      console.log(">>>>color: " + ( '000000' + color.getHex().toString( 16 ) ).slice( - 6 ));
       return ( '000000' + color.getHex().toString( 16 ) ).slice( - 6 );
     }
 
@@ -457,7 +458,7 @@ GLmol.prototype.create = function(id, suppressAutoload, canvas_id) {
           param = 0;
       }
       else {
-          param = this.currentColorH + 60;
+          param = this.currentColorH + colorchanger;
       }
       var color = new TCo(0);
       color.setHSV(param / 360, 1, 1);
@@ -481,7 +482,9 @@ GLmol.prototype.setupLights = function(scene) {
 };
 
 
-/* Toggle visibility of a pdb object */
+/* Toggle visibility of a pdb object - THESE ARE NOT USED*/
+
+
 GLmol.prototype.pdbToggle = function (id) {
 //        console.log(this.modelGroup);
     var currentPDB = _.where(this.modelGroup.children, {name: id})[0];
@@ -494,7 +497,7 @@ GLmol.prototype.pdbToggle = function (id) {
     })
     this.show();
 }
-/* Toggle visibility of a surf object */
+
 GLmol.prototype.surfToggle = function (id) {
     //console.log(this.surfGroup);
     var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
@@ -587,13 +590,40 @@ GLmol.prototype.toggleSurfOpacity = function(id){
     }
   });
   this.show();
+  this.show();
 
   //Bethany end
 }
+
+
 GLmol.prototype.cycleSurfOpacity = function(id){
+  console.log("In cycle surf opacity. Changing: " + id);
+
+  var protein = this.surfGroup.getChildByName(id);
+
+  console.log("Opacity: " + protein.material.opacity);
+  if(protein.material.opacity === 0.25){
+      protein.material.opacity -= 0.25;
+      protein.visible = !protein.visible;
+      // Toggle visible of children
+      
+    }
+    else if(protein.material.opacity !== 0){
+      protein.material.opacity -= 0.25;  
+    }
+    else {
+      protein.material.opacity -= 0.25;  
+      protein.visible = !protein.visible;
+      // Toggle visible of children
+      
+      protein.material.opacity = 1;  
+    }
+
+/*
   var currentSURF = _.where(this.surfGroup.children, {name: id})[0];
 
 //Bethany 
+
   currentSURF.children.forEach(function(child){
     console.log("Opacity: " + child.material.opacity);
     if(child.material.opacity === 0.25){
@@ -621,7 +651,7 @@ GLmol.prototype.cycleSurfOpacity = function(id){
   });
   
 //Bethany end
-
+*/
   this.show();
 }
 
@@ -653,7 +683,7 @@ GLmol.prototype.removePdb = function(id){
   // }
 
   //this.currentColorH-=60;
-  this.currentColorH = (this.currentColorH + 60)%360;
+  this.currentColorH = (this.currentColorH + colorchanger)%360;
 
   console.log("After deleting the protein");
   Object.keys(this.proteins).forEach(function(data){console.log(data);});
@@ -677,33 +707,8 @@ GLmol.prototype.removeSurf = function(id){
   Object.keys(this.surfGroup.children).forEach(function(data){console.log(data);});
 
 
-  this.currentColorH = (this.currentColorH + 60)%360;
-/*
-   console.log("Before deleting the protein:");
-   Object.keys(this.proteins).forEach(function(data){console.log(data);});
-   Object.keys(this.atoms).forEach(function(data){console.log(data);});
-   Object.keys(this.centroids).forEach(function(data){console.log(data);});
-   console.log(this.protein);
-   Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
-  delete this.proteins[id];
-  this.protein = null;
-  delete this.atoms[id];
-  delete this.centroids[id];
+  this.currentColorH = (this.currentColorH + colorchanger)%360;
 
-  var protein = this.modelGroup.getChildByName(id);
-  // console.log(protein);
-  this.modelGroup.remove(protein);
-
-  // fix the issue where when you remove an object, it doesn't reset the colors of the GLmol
-  this.currentColorH -= 60;
-
-  console.log("After deleting the protein");
-  Object.keys(this.proteins).forEach(function(data){console.log(data);});
-  Object.keys(this.atoms).forEach(function(data){console.log(data);});
-  Object.keys(this.centroids).forEach(function(data){console.log(data);});
-  console.log(this.protein);
-  Object.keys(this.modelGroup.children).forEach(function(data){console.log(data);});
-  */
   this.show();
   this.show();
 }
@@ -739,8 +744,37 @@ GLmol.prototype.changePdbColor = function(id, color){
   this.show();
 }
 
-// NEW EDITS END
-// NEW EDITS END
+GLmol.prototype.changeSurfColor = function(id, color){
+  console.log("[GLmol][changeSurfColor] beginning of function");
+  var currentSurf = _.where(this.modelGroup.children, {name: id})[0];
+  currentSurf.children.forEach(function(child){
+    if      ( color.search('#') >= 0 ) {
+      console.log("[GLmol][changeSurfColor] setting material color from hex color");
+      child.material.color.setHex(color);
+    }
+    else if ( color.search('rgb') >= 0 ) {
+      console.log("[GLmol][changeSurfColor] setting material color from rgb color");
+      var colorValues =color.substring(color.lastIndexOf("(")+1,color.lastIndexOf(")")).split(",");
+      var r = parseInt(colorValues[0]);
+      var g = parseInt(colorValues[1]);
+      var b = parseInt(colorValues[2]);
+      // console.log("New color is:" + r + " " + g + " " + b);
+
+      child.material.color = child.material.color.setRGB(r, g, b);
+      console.log(child.material.color);
+    }
+    else if ( color.search('hsl') >= 0 ) {
+      console.log("[GLmol][changeSurfColor] setting material color from hsv color");
+      var colorValues = color.substring(color.lastIndexOf("(")+1,color.lastIndexOf(")")).split(",");
+      console.log(colorValues);
+      // child.material.color.setHSV();
+    }
+    // child.material.color.
+  });
+  this.show();
+  this.show();
+}
+
 // NEW EDITS END
 
 GLmol.prototype.parseSDF = function(str) {
@@ -2050,8 +2084,8 @@ GLmol.prototype.colorChainbow = function(atomlist, id, colorSidechains) {
             this.currentColorH = 0;
         }
         else {
-          console.log("[GLmol][colorMono] increasing currentColorH's value by 60");
-            this.currentColorH = (this.currentColorH + 60)%360;
+          console.log("[GLmol][colorMono] increasing currentColorH's value by colorchanger % 360 to make sure does not ");
+            this.currentColorH = (this.currentColorH + colorchanger)%360;
         }
         var atom, i;
         var atoms = this.atoms[id];
